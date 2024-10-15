@@ -1,50 +1,44 @@
 #include <dependencies/httplib.h>
 #include <curl/curl.h>
+#include <string>
+#include <iostream>
+
+// I have no idea how use libcurl!!!
+// this code is from here: https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
+size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
+
+std::string get_wiki_page(const char* URL){
+  CURL* curl = curl_easy_init();
+  std::string buffer;
+  if(curl) {
+    curl_easy_setopt(curl, CURLOPT_URL, URL);
+ 
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    curl_easy_setopt(curl, CURLOPT_DNS_CACHE_TIMEOUT, 604800L);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+    CURLcode res = curl_easy_perform(curl);
+    if(res != CURLE_OK){
+        std::cerr << "curl_easy_perform() failed:" << curl_easy_strerror(res) << std::endl;
+    }
+ 
+    curl_easy_cleanup(curl);
+  }
+
+  return buffer;
+}
 
 int main(void)
 {
-  CURL *curl;
-  CURLcode res;
- 
   curl_global_init(CURL_GLOBAL_DEFAULT);
- 
-  curl = curl_easy_init();
-  if(curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, "https://en.wikipedia.org/wiki/Lady_Gaga");
- 
-    /*
-     * If you want to connect to a site who is not using a certificate that is
-     * signed by one of the certs in the CA bundle you have, you can skip the
-     * verification of the server's certificate. This makes the connection
-     * A LOT LESS SECURE.
-     *
-     * If you have a CA cert for the server stored someplace else than in the
-     * default bundle, then the CURLOPT_CAPATH option might come handy for
-     * you.
-     */
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    /*
-     * If the site you are connecting to uses a different host name that what
-     * they have mentioned in their server certificate's commonName (or
-     * subjectAltName) fields, libcurl refuses to connect. You can skip this
-     * check, but it makes the connection insecure.
-     */
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
- 
-    /* cache the CA cert bundle in memory for a week */
-    curl_easy_setopt(curl, CURLOPT_DNS_CACHE_TIMEOUT, 604800L);
- 
-    /* Perform the request, res gets the return code */
-    res = curl_easy_perform(curl);
-    /* Check for errors */
-    if(res != CURLE_OK)
-      fprintf(stderr, "curl_easy_perform() failed: %s\n",
-              curl_easy_strerror(res));
- 
-    /* always cleanup */
-    curl_easy_cleanup(curl);
-  }
- 
+
+  auto s = get_wiki_page("https://en.wikipedia.org/wiki/Lady_Gaga");
+
   curl_global_cleanup();
  
   return 0;
