@@ -1,10 +1,10 @@
-#include <algorithm>
-#include <dependencies/httplib.h>
-#include <curl/curl.h>
 #include <string>
 #include <iostream>
 #include <vector>
-#include <regex>
+
+#include <curl/curl.h>
+#include <dependencies/httplib.h>
+#include <lexbor/html/parser.h>
 
 // I have no idea how use libcurl!!!
 // this code is from here: https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
@@ -37,20 +37,7 @@ std::string get_wiki_page(const char* URL){
 }
 
 std::vector<std::string> find_links(const std::string raw_html){
-    std::regex rgx("<a.*>.*</a>");
     std::vector<std::string> v;
-
-    // following code straight from cpp reference: https://en.cppreference.com/w/cpp/regex/regex_iterator
-    auto words_begin = std::sregex_iterator(raw_html.begin(), raw_html.end(), rgx);
-    auto words_end = std::sregex_iterator();
-
-    for (std::sregex_iterator i = words_begin; i != words_end; ++i)
-    {
-        std::smatch match = *i;
-        std::string match_str = match.str();
-        v.push_back(match_str);
-    }
-
     return v;
 }
 
@@ -64,6 +51,8 @@ int main(void)
   for (auto link : v){
       std::cout << link << std::endl;
   }
+
+  std::cout << "did it" << std::endl;
 
   curl_global_cleanup();
  
