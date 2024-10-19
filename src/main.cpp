@@ -1,10 +1,13 @@
+#include <lexbor/dom/interfaces/document.h>
 #include <string>
 #include <iostream>
 #include <vector>
 
 #include <curl/curl.h>
 #include <dependencies/httplib.h>
-#include <lexbor/html/parser.h>
+
+#include "lexbor/dom/base.h">
+#include <lexbor/dom/dom.h>
 
 // I have no idea how use libcurl!!!
 // this code is from here: https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
@@ -36,8 +39,24 @@ std::string get_wiki_page(const char* URL){
   return buffer;
 }
 
-std::vector<std::string> find_links(const std::string raw_html){
+std::vector<std::string> find_links(std::string& raw_html){
     std::vector<std::string> v;
+
+    lxb_dom_element_t *element;
+    lxb_dom_document_t *document;
+    lxb_dom_collection_t *collection;
+
+    document = lxb(reinterpret_cast<unsigned char*>(raw_html.data()), raw_html.size());
+
+    collection = lxb_dom_collection_make(document, 128);
+
+    for (size_t i = 0; i < lxb_dom_collection_length(collection); i++) {
+
+    }
+
+    lxb_dom_collection_destroy(collection, true);
+    lxb_dom_document_destroy(document);
+
     return v;
 }
 
