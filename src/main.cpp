@@ -1,4 +1,8 @@
 #include <lexbor/dom/interfaces/document.h>
+#include <lexbor/dom/interfaces/element.h>
+#include <lexbor/dom/interfaces/node.h>
+#include <lexbor/html/parser.h>
+#include <lexbor/tag/const.h>
 #include <string>
 #include <iostream>
 #include <vector>
@@ -6,8 +10,8 @@
 #include <curl/curl.h>
 #include <dependencies/httplib.h>
 
-#include "lexbor/dom/base.h">
-#include <lexbor/dom/dom.h>
+#include <lexbor/html/html.h>
+#include <lexbor/core/types.h>
 
 // I have no idea how use libcurl!!!
 // this code is from here: https://stackoverflow.com/questions/44994203/how-to-get-the-http-response-string-using-curl-in-c
@@ -39,23 +43,50 @@ std::string get_wiki_page(const char* URL){
   return buffer;
 }
 
-std::vector<std::string> find_links(std::string& raw_html){
+std::vector<std::string> find_links(const std::string& raw_html){
     std::vector<std::string> v;
 
-    lxb_dom_element_t *element;
-    lxb_dom_document_t *document;
-    lxb_dom_collection_t *collection;
+    // Initialize the liblexbor HTML parser
+    lxb_html_document_t *document;
+    lxb_html_parser_t *parser;
 
-    document = lxb(reinterpret_cast<unsigned char*>(raw_html.data()), raw_html.size());
+    // Create a new HTML document object
+    document = lxb_html_document_create();
 
-    collection = lxb_dom_collection_make(document, 128);
+    // Initialize the HTML parser
+    parser = lxb_html_parser_create();
 
-    for (size_t i = 0; i < lxb_dom_collection_length(collection); i++) {
+    // Parse the HTML content | this line seg faults
+    document = lxb_html_parse(parser, (const unsigned char *)raw_html.data(), raw_html.size());
 
+    std::cout << "------------------------------------------------" << std::endl;
+
+    lxb_dom_node_t* root = &document->body->element.element.node;
+    while(root != nullptr){
+        if(root->type == LXB_DOM_NODE_TYPE_ELEMENT && lxb_dom_node_tag_id(root) == LXB_TAG_A){
+            lxb_dom_element_t *root_but_as_an_element = (lxb_dom_element_t *)root;
+
+            // Get the "href" attribute
+            const lxb_char_t *attr_name = (const lxb_char_t *)"href";
+            size_t attr_name_len = 4;
+            size_t attr_value_len;
+            
+            const lxb_char_t *href_attr = lxb_dom_element_get_attribute(root_but_as_an_element, attr_name, attr_name_len, &attr_value_len);
+
+            std::string link;
+            link.reserve(attr_value_len);
+            for(size_t i = 0; i< attr_value_len; i++){
+                link.push_back(*(href_attr+i));
+            }
+            v.push_back(link);
+        }
+
+        root = lxb_dom_node_next(root);
     }
 
-    lxb_dom_collection_destroy(collection, true);
-    lxb_dom_document_destroy(document);
+    // Clean up
+    lxb_html_parser_destroy(parser);
+    lxb_html_document_destroy(document);
 
     return v;
 }

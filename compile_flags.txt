@@ -7,4 +7,5 @@
 -Iinclude
 -Isrc
 -Llib
+-llexbor
 
