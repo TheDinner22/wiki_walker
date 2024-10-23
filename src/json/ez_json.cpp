@@ -6,6 +6,7 @@
 using namespace simdjson;
 
 // there are certain things that we want from the wikipedia API
+// 
 // we get those specific things here
 //
 // this is not a generic JSON parse and should only be passed the reuslt
@@ -18,6 +19,11 @@ void parse_wiki_api_json(const std::string& raw_json){
     simdjson::ondemand::parser parser;
     simdjson::ondemand::document result = parser.iterate(raw_padded_json);
 
+    for(auto item: result["query"].get_object()){
+        std::cout << item.key() << std::endl;
+    }
+    return;
+
     auto pages = result["query"]["pages"].get_object();
     if(pages.error() != SUCCESS){ std::cout << pages.error() << std::endl; return; }
 
@@ -28,6 +34,12 @@ void parse_wiki_api_json(const std::string& raw_json){
         for (auto link : links){
             std::cout << link["title"].get_string() << std::endl;
         }
+    }
+
+    // keep looping as long as the request implies that there
+    // is more data
+    while(result.find_field("continue").error() == SUCCESS){
+        auto plcontinue = result["continue"]["plcontinue"];
     }
 
 
