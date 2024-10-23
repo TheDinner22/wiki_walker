@@ -1,17 +1,19 @@
-
 //#include <dependencies/httplib.h>
 
-#include "./json/ez_json.hpp"
 #include <curl/curl.h>
-#include "requests/requests.hpp"
+#include "./wiki_api/wiki_api.hpp"
+#include <iostream>
 
 int main(void)
 {
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    const char* msg = "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=Albert_Einstein&prop=links&pllimit=max";
-    std::string response = send_get_request(msg);
-    parse_wiki_api_json(response);
+    auto v = get_links("Albert_Einstein");
+
+    for (auto link: v){
+        //std::cout << link << std::endl;
+    }
+    //std::cout << v.size() << std::endl;
 
     curl_global_cleanup();
 
