@@ -14,6 +14,8 @@ std::string send_get_request(const char* URL){
   CURL* curl = curl_easy_init();
   std::string buffer;
   if(curl) {
+    // encode URL
+
     curl_easy_setopt(curl, CURLOPT_URL, URL);
  
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);

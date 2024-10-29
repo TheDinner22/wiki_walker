@@ -11,9 +11,9 @@ int main(void)
     auto v = get_links("Albert_Einstein");
 
     for (auto link: v){
-        //std::cout << link << std::endl;
+        std::cout << link << std::endl;
     }
-    //std::cout << v.size() << std::endl;
+    std::cout << v.size() << std::endl;
 
     curl_global_cleanup();
 

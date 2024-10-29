@@ -1,4 +1,5 @@
 import requests
+from requests.sessions import Request
 
 session = requests.Session()
 
@@ -18,28 +19,30 @@ pages = data["query"]["pages"]
 pg_count = 1
 page_titles = []
 
-print("Page %d" % pg_count)
+#print("Page %d" % pg_count)
 for key, val in pages.items():
     for link in val["links"]:
         print(link["title"])
         page_titles.append(link["title"])
 
-
-
 while "continue" in data:
     plcontinue = data["continue"]["plcontinue"]
     params["plcontinue"] = plcontinue
+    #print(plcontinue)
 
     response = session.get(url=url, params=params)
+    r = Request(url=url, params=params)
+    p = r.prepare()
+    #print(p.url)
     data = response.json()
     pages = data["query"]["pages"]
 
     pg_count += 1
 
-    print("\nPage %d" % pg_count)
+    #print("\nPage %d" % pg_count)
     for key, val in pages.items():
         for link in val["links"]:
             print(link["title"])
             page_titles.append(link["title"])
 
-print("%d titles found." % len(page_titles))
+print(len(page_titles))
