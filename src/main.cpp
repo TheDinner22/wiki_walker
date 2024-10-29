@@ -3,15 +3,17 @@
 #include <iostream>
 
 #include "./wiki_api/wiki_api.hpp"
+#include "./pages/pages.hpp"
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 int main(void){
-
     // HTTP
     httplib::Server svr;
 
-    svr.Get("/hi", [](const httplib::Request &, httplib::Response &res) {
-      res.set_content("Hello World!", "text/plain");
+    // landing page
+    svr.Get("/", [](const httplib::Request &, httplib::Response &res) {
+        std::string page_html = landing_page();
+        res.set_content(page_html, "text/html");
     });
 
     svr.listen("127.0.0.1", 8000);
