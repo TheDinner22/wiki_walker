@@ -1,11 +1,23 @@
-//#include <dependencies/httplib.h>
-
+#include <dependencies/httplib.h>
 #include <curl/curl.h>
-#include "./wiki_api/wiki_api.hpp"
 #include <iostream>
 
-int main(void)
-{
+#include "./wiki_api/wiki_api.hpp"
+
+#define CPPHTTPLIB_OPENSSL_SUPPORT
+int main(void){
+
+    // HTTP
+    httplib::Server svr;
+
+    svr.Get("/hi", [](const httplib::Request &, httplib::Response &res) {
+      res.set_content("Hello World!", "text/plain");
+    });
+
+    svr.listen("127.0.0.1", 8000);
+}
+
+void chaining_example(){
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
     auto v1 = get_links("Theodore Roosevelt");
@@ -17,6 +29,4 @@ int main(void)
 
 
     curl_global_cleanup();
-
-    return 0;
 }
