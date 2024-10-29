@@ -10,10 +10,16 @@ int main(void){
     // HTTP
     httplib::Server svr;
 
+    bool worked = svr.set_mount_point("/public", "./public");
+    if(!worked){
+        std::cout << "yeah so we are FUCKED" << std::endl;
+    }
+
     // landing page
     svr.Get("/", [](const httplib::Request &, httplib::Response &res) {
         std::string page_html = landing_page();
-        res.set_content(page_html, "text/html");
+        //res.set_content(page_html, "text/html");
+        res.set_redirect("/public/html/index.html");
     });
 
     svr.listen("127.0.0.1", 8000);

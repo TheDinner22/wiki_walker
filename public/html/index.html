@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Walker</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+        }
+
+        .menu {
+            background-color: #005EB8;
+            /* UF Blue */
+            color: white;
+        }
+
+        .menu a {
+            color: white;
+            margin: 0 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #005EB8;
+            /* UF Blue */
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            padding: 15px;
+            width: 300px;
+            /* Card width */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+    <script src="/public/js/htmx.js"></script>
+    <script src="/public/js/index.js"></script>
+</head>
+
+<body hx-boost="true">
+
+    <nav class="menu">
+        <div class="container">
+            <a href="#about" class="brand-logo">Wiki Walker</a>
+            <ul class="right">
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#example">Example Use</a></li>
+                <li><a href="#technologies">Technologies Used</a></li>
+                <li><a href="#results">Results</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Wiki Walker</h1>
+    <div class="container">
+        <div class="input-container">
+            <div class="input-field col s5">
+                <input type="text" id="input1" placeholder="First Input" required>
+                <label for="input1">First Input</label>
+            </div>
+            <div class="input-field col s5">
+                <input type="text" id="input2" placeholder="Second Input" required>
+                <label for="input2">Second Input</label> </div>
+            <button
+                class="btn waves-effect waves-light"
+                type="button"
+                hx-get="/api/perform_search"
+                hx-vals="js{...read_inputs()}"
+                hx-target=".card-container"
+                hx-swap="innerHTML"
+                >
+                Search
+            </button>
+        </div>
+
+        <div class="card-container">
+            <div class="card">
+                <strong>Sample Input 1</strong>
+                <p>Sample Input 2</p>
+                <p>Additional information can be displayed here to provide more context.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materialize JS (optional for components) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>
