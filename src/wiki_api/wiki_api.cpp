@@ -9,12 +9,16 @@
 
 using namespace simdjson;
 
-std::vector<std::basic_string_view<char>>get_links(const std::string& page_name){
+std::vector<std::basic_string_view<char>>get_links(const std::basic_string_view<char>& page_name){
     CURL* curl = curl_easy_init();
     std::vector<std::basic_string_view<char>> parsed_links;
 
-    // send get request // TODO url encode the name
-    std::string url = "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=" + page_name + "&prop=links&pllimit=max";
+    // URL encode the page name
+    // TODO alloc maybe?
+    std::string encoded_page_name = curl_easy_escape(curl, page_name.data(), page_name.size());
+
+    // send get request 
+    std::string url = "https://en.wikipedia.org/w/api.php?action=query&format=json&titles=" + encoded_page_name + "&prop=links&pllimit=max";
     auto raw_json = send_get_request(url.c_str());
 
     // parse json

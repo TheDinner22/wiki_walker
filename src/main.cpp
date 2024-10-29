@@ -8,12 +8,13 @@ int main(void)
 {
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
-    auto v = get_links("Albert_Einstein");
+    auto v1 = get_links("Theodore Roosevelt");
+    std::cout << v1[10] << std::endl;
+    auto v2 = get_links(v1[10]);
+    std::cout << v2[10] << std::endl;
+    auto v3 = get_links(v2[10]);
+    std::cout << v3[10] << std::endl;
 
-    for (auto link: v){
-        std::cout << link << std::endl;
-    }
-    std::cout << v.size() << std::endl;
 
     curl_global_cleanup();
 
