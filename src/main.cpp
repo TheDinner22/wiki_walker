@@ -22,6 +22,14 @@ int main(void){
         res.set_redirect("/public/html/index.html");
     });
 
+    svr.Get("/api/perform_search", [](const httplib::Request &req, httplib::Response &res) {
+        std::cout << "hi" << std::endl;
+        for(auto param: req.params){
+            std::cout << param.first << ":" << param.second << std::endl;
+        }
+        res.set_content("", "text/plain");
+    });
+
     svr.listen("127.0.0.1", 8000);
 }
 

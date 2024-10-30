@@ -3,6 +3,6 @@ function read_inputs(){
     in2 = document.getElementById("input2");
     return {
         "input1": in1.value,
-        "input2": in2.value,
+        "input2": in2.value
     }
 }
