@@ -1,3 +1,6 @@
+# this makefile is fucking astounding and I love it so much
+# make CSS="ccahce g++" for crazy fast builds
+
 # Pre-compiler and Compiler flags
 CXX_FLAGS := -Wall -Wextra -std=c++17 -ggdb
 PRE_FLAGS := -MMD -MP
