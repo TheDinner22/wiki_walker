@@ -24,8 +24,7 @@ std::vector<std::basic_string_view<char>>search_wiki(const std::basic_string_vie
 
     auto search_results = result["query"]["search"].get_array();
     if(search_results.error() != SUCCESS){
-        std::cout << search_results.error() << std::endl;
-        return parsed_links;
+        return parsed_links; // this is not an error state since no-results is ok
     }
 
     for(auto result : search_results){

@@ -1,5 +1,18 @@
 #pragma once
 
 #include <string>
+#include "../dependencies/httplib.h"
 
-std::string landing_page();
+namespace pages {
+    // just grab some html
+    std::string landing_page();
+
+    // validate and parse req
+    // send get request
+    // format response as html
+    // setup response
+    void search_hint(const httplib::Request& req, httplib::Response &res);
+
+    void search_for_5_pages(const httplib::Request& req, httplib::Response &res);
+}
+

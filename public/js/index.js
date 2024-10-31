@@ -6,3 +6,9 @@ function read_inputs(){
         "input2": in2.value
     }
 }
+
+function i_love_dry_code(class_name){
+}
+
+// when first input is focused or un-focused
+
