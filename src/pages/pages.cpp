@@ -38,7 +38,7 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     // if results, format them and return
     std::string final_html = "<ul id=\"search-results\">";
     for (auto result: results){
-        final_html += "<li>";
+        final_html += "<li onclick=\"alert('hi')\">";
         final_html += result;
         final_html += "</li>";
     }

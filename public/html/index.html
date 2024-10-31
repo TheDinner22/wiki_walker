@@ -30,6 +30,11 @@
             /* UF Blue */
         }
 
+        .hidden{
+            visibility: hidden;
+            transition: all 100ms ease;
+        }
+
         .card {
             background-color: white;
             border: 1px solid #ddd;
@@ -53,6 +58,11 @@
             border-bottom: 1px solid #ccc;
             background-color: #005EB8;
         }
+
+        #search-results li:hover {
+            background-color: cyan;
+        }
+
     </style>
 
     <script src="/public/js/htmx.js"></script>
@@ -80,11 +90,13 @@
                 <input type="text" id="input1" placeholder="First Input" required hx-get="/api/search_hint" name="input"
                     hx-trigger="keyup changed delay:300ms" hx-target=".input1_hint" hx-swap="innerHTML">
                 <label for="input1">First Input</label>
-                <div class="input1_hint"></div>
+                <div class="input1_hint hidden"></div>
             </div>
             <div class="input-field col s5">
-                <input type="text" id="input2" placeholder="Second Input" required>
+                <input type="text" id="input2" placeholder="Second Input" required hx-get="/api/search_hint" name="input"
+                    hx-trigger="keyup changed delay:300ms" hx-target=".input2_hint" hx-swap="innerHTML">
                 <label for="input2">Second Input</label>
+                <div class="input2_hint hidden"></div>
             </div>
             <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_search"
                 hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
