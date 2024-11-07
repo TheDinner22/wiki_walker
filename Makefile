@@ -45,12 +45,12 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	@echo "🚧 Building..."
 	mkdir -p $(dir $@)
-	$(CXX) $(OBJS) -o $@ $(LDPATHS) $(LDFLAGS)
+	ccache $(CXX) $(OBJS) -o $@ $(LDPATHS) $(LDFLAGS)
 
 # Compile all cpp files
 $(BUILD)/%.o: $(SRC)/%.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CXX_FLAGS) $(PRE_FLAGS) $(INC_FLAGS) -c -o $@ $< $(LDPATHS) $(LDFLAGS)
+	ccache $(CXX) $(CXX_FLAGS) $(PRE_FLAGS) $(INC_FLAGS) -c -o $@ $< $(LDPATHS) $(LDFLAGS)
 
 # Clean task
 .PHONY: clean

@@ -60,7 +60,7 @@ int main(void){
         res.set_content("", "text/plain");
     });
 
-    svr.listen("127.0.0.1", 8000);
+    svr.listen("0.0.0.0", 8000);
 }
 
 void chaining_example(){
@@ -75,3 +75,4 @@ void chaining_example(){
 
     curl_global_cleanup();
 }
+//
