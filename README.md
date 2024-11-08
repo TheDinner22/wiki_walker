@@ -1,8 +1,10 @@
 ### dependencies
 
+BACKEND
 HTTPRequest - https://github.com/elnormous/HTTPRequest
 curl lib - https://curl.se/libcurl/
 simdjson - json parser for c++
+FRONTEND
 htmx - worlds best front-end
 
 ```
@@ -34,4 +36,13 @@ to run the server.
 
 You should be able to modify files in vs code and see them update in Docker
 
+### ideas
+
+- time
+- num requests
+- pages visited
+- min path len
+- algo name
+- picture of start and end
+- the path
 
