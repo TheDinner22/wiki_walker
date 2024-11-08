@@ -94,5 +94,10 @@ ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Respo
     results.valid = p1_exists && p2_exists;
     results.start_page = start_page;
     results.end_page = end_page;
+
+    if(results.valid == false){
+        std::cout << "was false" << std::endl;
+    }
+    
     return results;
 }
