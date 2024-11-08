@@ -13,6 +13,8 @@ namespace pages {
     // setup response
     void search_hint(const httplib::Request& req, httplib::Response &res);
 
+    void perform_search(const httplib::Request& req, httplib::Response &res);
+
     void search_for_5_pages(const httplib::Request& req, httplib::Response &res);
 }
 

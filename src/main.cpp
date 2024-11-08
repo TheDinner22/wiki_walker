@@ -30,34 +30,7 @@ int main(void){
 
     // called when the button is pressed and both inputs are sent in as params
     svr.Get("/api/perform_search", [](const httplib::Request &req, httplib::Response &res) {
-        pages::search_for_5_pages(req, res);
-
-        std::basic_string<char> start_page;
-        std::basic_string<char> end_page;
-        bool p1_exists = false;
-        bool p2_exists = false;
-        for(auto param: req.params){
-            if(param.first == "input1"){
-                start_page = param.second;
-                p1_exists = true;
-            }
-
-            else if(param.first == "input2"){
-                end_page = param.second;
-                p2_exists = true;
-            }
-
-            if(p1_exists && p2_exists){break;}
-        }
-
-        // bad Request
-        if(!p1_exists && !p2_exists){
-            res.status = httplib::BadRequest_400;
-            res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
-        }
-
-        // otherwise, perform search and then
-        res.set_content("", "text/plain");
+        pages::perform_search(req, res);
     });
 
     svr.listen("0.0.0.0", 8000);
