@@ -53,13 +53,26 @@ struct ThisIsBadCode{
     std::basic_string<char> end_page;
 };
 ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Response &res);
-void pages::perform_search(const httplib::Request& req, httplib::Response &res){
+void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name){
     // get start and end page
     auto results = get_start_and_end_page(req, res);
     if(results.valid == false){ return; }
 
     // perform search
-    auto algo_results = keep_picking_random(results.start_page, results.end_page);
+    ParseResults algo_results;
+    if(f_name.size() == 0){
+        algo_results = keep_picking_random(results.start_page, results.end_page);
+    }
+    else if(f_name == "r"){
+        algo_results = rai_algo(results.start_page, results.end_page);
+    }
+
+    else if(f_name == "h"){
+        algo_results = hubert_algo(results.start_page, results.end_page);
+    }
+    else {
+        std::cout << "INVALID" << std::endl;
+    }
 
     // send html down
     res.set_content(algo_results.as_html_card(), "text/html");
@@ -86,9 +99,12 @@ ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Respo
     }
 
     // bad Request
-    if(!p1_exists && !p2_exists){
+    if(!p1_exists || !p2_exists){
         res.status = httplib::BadRequest_400;
         res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
+        ThisIsBadCode r;
+        r.valid = false;
+        return r;
     }
     ThisIsBadCode results;
     results.valid = p1_exists && p2_exists;

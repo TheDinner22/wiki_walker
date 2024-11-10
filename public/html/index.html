@@ -102,6 +102,14 @@
                 hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
                 Search
             </button>
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_r_search"
+                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
+                Rai
+            </button>
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_h_search"
+                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
+                Hubert
+            </button>
         </div>
 
         <div class="card-container">

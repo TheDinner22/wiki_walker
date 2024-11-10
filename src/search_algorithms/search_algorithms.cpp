@@ -12,6 +12,7 @@ ParseResults keep_picking_random(const std::string& start, std::string& end){
     for(int i = 0; i< 10; i++){
         the_path.push_back(next);
         auto links = searcher.get_links(next);
+        if(links.size() == 0){ break; }
         next = links[rand() % links.size()];
     }
 

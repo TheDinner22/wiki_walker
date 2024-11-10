@@ -35,6 +35,10 @@ std::vector<std::basic_string_view<char>>get_links(const std::basic_string_view<
     for (auto item: pages){
         auto value = item.value();
         auto links = value["links"];
+        if(links.error() != SUCCESS){
+            std::cout << "there were no links!" << std::endl;
+            continue;
+        }
         for (auto link : links){
             auto raw_name = link["title"].get_string().take_value();
             // url decode the thing
