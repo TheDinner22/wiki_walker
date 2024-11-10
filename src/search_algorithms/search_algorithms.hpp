@@ -2,7 +2,20 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
+#include "wiki_api/wiki_api.hpp"
+
+class Searcher{
+public:
+    virtual std::vector<std::basic_string_view<char>> get_links(const std::basic_string_view<char>& start) = 0;
+    virtual ~Searcher() = default;
+};
+
+class RealWebSearcher : public Searcher {
+public:
+    std::vector<std::basic_string_view<char>> get_links(const std::basic_string_view<char>& start){
+        return ::get_links(start);
+    }
+};
 
 // just make functions that return this
 struct ParseResults {

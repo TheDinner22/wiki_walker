@@ -1,17 +1,17 @@
 #include "search_algorithms.hpp"
-#include "wiki_api/wiki_api.hpp"
 #include <cstdlib>
 #include <vector>
-#include <iostream>
 
 // the get_links function 
 // returns all page names pointed to by a page name
 ParseResults keep_picking_random(const std::string& start, std::string& end){
+    RealWebSearcher searcher;
+
     std::basic_string_view<char> next = start;
     std::vector<std::basic_string_view<char>> the_path;
     for(int i = 0; i< 10; i++){
         the_path.push_back(next);
-        auto links = get_links(next);
+        auto links = searcher.get_links(next);
         next = links[rand() % links.size()];
     }
 
