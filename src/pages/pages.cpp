@@ -2,6 +2,7 @@
 #include "../wiki_search/wiki_search.hpp"
 #include "dependencies/httplib.h"
 #include "search_algorithms/search_algorithms.hpp"
+#include "the_graph/the_graph.hpp"
 
 std::string pages::landing_page(){
     return "hello world";
@@ -64,7 +65,8 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
         algo_results = keep_picking_random(results.start_page, results.end_page);
     }
     else if(f_name == "r"){
-        algo_results = rai_algo(results.start_page, results.end_page);
+        Graph g;
+        algo_results = rai_algo(results.start_page, results.end_page, g);
     }
 
     else if(f_name == "h"){

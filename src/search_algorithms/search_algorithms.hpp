@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "the_graph/the_graph.hpp"
 #include "wiki_api/wiki_api.hpp"
 
 class Searcher{
@@ -54,5 +55,5 @@ struct ParseResults {
 ParseResults keep_picking_random(const std::string& start, std::string& end);
 
 ParseResults hubert_algo(const std::string& start, std::string& end);
-ParseResults rai_algo(const std::string& start, std::string& end);
+ParseResults rai_algo(const std::string& start, std::string& end, const Graph& graph);
 
