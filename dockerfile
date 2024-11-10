@@ -16,4 +16,4 @@ EXPOSE 8000/tcp
 #COPY public ./public/*
 #COPY Makefile ./Makefile
 
-CMD ["sleep", "infinity"] # CMD["make"] # in prod it should just run
+CMD ["sleep", "infinity"]
