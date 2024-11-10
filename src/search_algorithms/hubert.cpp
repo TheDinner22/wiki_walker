@@ -1,6 +1,7 @@
 #include "search_algorithms.hpp"
+#include "the_graph/the_graph.hpp"
 
-ParseResults hubert_algo(const std::string& start, std::string& end){
+ParseResults hubert_algo(const std::string& start, std::string& end, const Graph& g){
     ParseResults r;
     r.num_requests_sent = 10;
     r.pages_visited = 10;

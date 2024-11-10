@@ -70,7 +70,8 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     }
 
     else if(f_name == "h"){
-        algo_results = hubert_algo(results.start_page, results.end_page);
+        Graph g;
+        algo_results = hubert_algo(results.start_page, results.end_page, g);
     }
     else {
         std::cout << "INVALID" << std::endl;
