@@ -87,11 +87,18 @@
     <div class="container">
         <div class="input-container">
             <div class="input-field col s5">
-                <input type="text" id="input2" placeholder="Second Input" required hx-get="/api/search_hint" name="input"
+                <input type="text" id="input2" placeholder="Start Page" required hx-get="/api/search_hint" name="input"
                     hx-trigger="keyup changed delay:300ms" hx-target=".input2_hint" hx-swap="innerHTML">
-                <label for="input2">Second Input</label>
+                <label for="input2">Start Page</label>
                 <div class="input2_hint hidden"></div>
             </div>
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/create_tree"
+                hx-vals="js:{...read_inputs()}" hx-target=".tree-container" hx-swap="innerHTML">
+                Create Subtree to Search
+            </button>
+
+            <hr>
+
             <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_search"
                 hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
                 Search
@@ -106,6 +113,7 @@
             </button>
         </div>
 
+        <div class="tree-container"> </div>
         <div class="card-container">
             <div class="card">
                 <strong>Sample Input 1</strong>

@@ -26,6 +26,11 @@ int main(void){
         pages::search_hint(req, res);
     });
 
+    // called when we need to create a graph to search
+    svr.Get("/api/create_tree", [](const httplib::Request &req, httplib::Response &res) {
+        pages::create_graph(req, res);
+    });
+
     // called when the button is pressed and both inputs are sent in as params
     svr.Get("/api/perform_search", [](const httplib::Request &req, httplib::Response &res) {
         pages::perform_search(req, res, "");

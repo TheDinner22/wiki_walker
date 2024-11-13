@@ -120,3 +120,7 @@ ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Respo
     
     return results;
 }
+
+void pages::create_graph(const httplib::Request& req, httplib::Response &res){
+    res.set_content("hi i got here", "text/plain");
+}

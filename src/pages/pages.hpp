@@ -16,5 +16,7 @@ namespace pages {
     void perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name);
 
     void search_for_5_pages(const httplib::Request& req, httplib::Response &res);
+
+    void create_graph(const httplib::Request& req, httplib::Response &res);
 }
 
