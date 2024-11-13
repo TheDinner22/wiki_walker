@@ -7,6 +7,7 @@ ParseResults rai_algo_dfs(const std::string& start, const std::string& end, cons
     r.pages_visited = 10;
     r.algo_name = "rai DFS button";
     r.shortest_path = {"a", "b", "c"};
+    graph.print();
 
     std::cout << "start: " << start << std::endl;
     std::cout << "end: " << end << std::endl;
