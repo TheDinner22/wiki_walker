@@ -1,8 +1,6 @@
 function read_inputs(){
-    in1 = document.getElementById("input1");
     in2 = document.getElementById("input2");
     return {
-        "input1": in1.value,
         "input2": in2.value
     }
 }
@@ -30,7 +28,7 @@ function input_hint_setup(input_id, hint_class_name){
 
 // this is the same as main in js land
 document.addEventListener('DOMContentLoaded', () => {
-    input_hint_setup("input1", ".input1_hint");
+    //input_hint_setup("input1", ".input1_hint");
     input_hint_setup("input2", ".input2_hint");
 })
 
