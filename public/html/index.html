@@ -96,24 +96,45 @@
                 hx-vals="js:{...read_inputs()}" hx-target=".tree-container" hx-swap="innerHTML">
                 Create Subtree to Search
             </button>
+            <div class="tree-container"> </div>
 
             <hr>
 
+            <div class="input-field col s5">
+                <input type="text" id="input3" placeholder="Start Page" required hx-get="/api/search_hint" name="input"
+                    hx-trigger="keyup changed delay:300ms" hx-target=".input3_hint" hx-swap="innerHTML">
+                <label for="input3">Start Page</label>
+                <div class="input3_hint hidden"></div>
+            </div>
+            <div class="input-field col s5">
+                <input type="text" id="input4" placeholder="End Page" required hx-get="/api/search_hint" name="input"
+                    hx-trigger="keyup changed delay:300ms" hx-target=".input4_hint" hx-swap="innerHTML">
+                <label for="input4">Start Page</label>
+                <div class="input4_hint hidden"></div>
+            </div>
+
             <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
+                hx-vals="js:{...read_start_end()}" hx-target=".card-container" hx-swap="innerHTML">
                 Search
             </button>
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_r_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Rai
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_bfs_search"
+                hx-vals="js:{...read_start_end()}" hx-target=".card-container" hx-swap="innerHTML">
+                Rai - BFS
             </button>
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_h_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Hubert
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_dfs_search"
+                hx-vals="js:{...read_start_end()}" hx-target=".card-container" hx-swap="innerHTML">
+                Rai - DFS
+            </button>
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_d_search"
+                hx-vals="js:{...read_start_end()}" hx-target=".card-container" hx-swap="innerHTML">
+                Hubert - Dijkstra
+            </button>
+            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_a_search"
+                hx-vals="js:{...read_start_end()}" hx-target=".card-container" hx-swap="innerHTML">
+                Hubert - A*
             </button>
         </div>
 
-        <div class="tree-container"> </div>
         <div class="card-container">
             <div class="card">
                 <strong>Sample Input 1</strong>

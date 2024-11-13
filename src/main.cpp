@@ -40,13 +40,23 @@ int main(void){
     });
 
     // rai button
-    svr.Get("/api/perform_r_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "r", g);
+    svr.Get("/api/perform_bfs_search", [&g](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "bfs", g);
+    });
+
+    // rai button
+    svr.Get("/api/perform_dfs_search", [&g](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "dfs", g);
     });
 
     // hubert button
-    svr.Get("/api/perform_h_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "h", g);
+    svr.Get("/api/perform_d_search", [&g](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "d", g);
+    });
+
+    // hubert button
+    svr.Get("/api/perform_a_search", [&g](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "a", g);
     });
 
     svr.listen("0.0.0.0", 8000);

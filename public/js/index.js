@@ -5,6 +5,15 @@ function read_inputs(){
     }
 }
 
+function read_start_end(){
+    in3 = document.getElementById("input3");
+    in4 = document.getElementById("input4");
+    return {
+        "input3": in3.value,
+        "input4": in4.value,
+    }
+}
+
 // returns a function that hides or un-hides the element with the given class name
 function hide(class_name){ return () => { document.querySelector(class_name).classList.add("hidden"); } }
 function un_hide(class_name){ return () => { document.querySelector(class_name).classList.remove("hidden"); } }
@@ -30,5 +39,7 @@ function input_hint_setup(input_id, hint_class_name){
 document.addEventListener('DOMContentLoaded', () => {
     //input_hint_setup("input1", ".input1_hint");
     input_hint_setup("input2", ".input2_hint");
+    input_hint_setup("input3", ".input3_hint");
+    input_hint_setup("input4", ".input4_hint");
 })
 

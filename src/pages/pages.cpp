@@ -56,11 +56,13 @@ struct ThisIsBadCode{
     bool valid;
     // TODO BIG CHANGE HERE
     std::basic_string<char> start_page;
+    std::basic_string<char> end_page;
 };
 ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res);
+ThisIsBadCode get_start_end(const httplib::Request& req, httplib::Response &res);
 void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, const Graph& g){
     // get start and end page
-    auto results = get_start_page(req, res);
+    auto results = get_start_end(req, res);
     if(results.valid == false){ return; }
 
     // perform search
@@ -68,12 +70,18 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     if(f_name.size() == 0){
         algo_results = keep_picking_random(results.start_page);
     }
-    else if(f_name == "r"){
-        algo_results = rai_algo(results.start_page, g);
+    else if(f_name == "bfs"){
+        algo_results = rai_algo_bfs(results.start_page, results.end_page, g);
     }
 
-    else if(f_name == "h"){
-        algo_results = hubert_algo(results.start_page, g);
+    else if(f_name == "dfs"){
+        algo_results = rai_algo_dfs(results.start_page, results.end_page, g);
+    }
+    else if(f_name == "d"){
+        algo_results = hubert_algo_dijkstra(results.start_page, results.end_page, g);
+    }
+    else if(f_name == "a"){
+        algo_results = hubert_algo_a_star(results.start_page, results.end_page, g);
     }
     else {
         std::cout << "INVALID" << std::endl;
@@ -106,6 +114,43 @@ ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res
     ThisIsBadCode results;
     results.valid = p2_exists;
     results.start_page = start_page;
+
+    if(results.valid == false){
+        std::cout << "was false" << std::endl;
+    }
+    
+    return results;
+}
+
+ThisIsBadCode get_start_end(const httplib::Request& req, httplib::Response &res){
+    // get start and end page
+    std::basic_string<char> start_page;
+    std::basic_string<char> end_page;
+    bool p1_exists = false;
+    bool p2_exists = false;
+    for(auto param: req.params){
+        if(param.first == "input3"){
+            start_page = param.second;
+            p1_exists = true;
+        }
+        if(param.first == "input4"){
+            end_page = param.second;
+            p2_exists = true;
+        }
+    }
+
+    // bad Request
+    if(!p2_exists || !p1_exists){
+        res.status = httplib::BadRequest_400;
+        res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
+        ThisIsBadCode r;
+        r.valid = false;
+        return r;
+    }
+    ThisIsBadCode results;
+    results.valid = p2_exists && p1_exists;
+    results.start_page = start_page;
+    results.end_page = end_page;
 
     if(results.valid == false){
         std::cout << "was false" << std::endl;

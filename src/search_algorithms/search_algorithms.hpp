@@ -54,6 +54,9 @@ struct ParseResults {
 // here's an example that traverses the 20th link (assuming it exists) ten times
 ParseResults keep_picking_random(const std::string& start);
 
-ParseResults hubert_algo(const std::string& start, const Graph& g);
-ParseResults rai_algo(const std::string& start, const Graph& graph);
+ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g);
+ParseResults hubert_algo_a_star(const std::string& start, const std::string& end, const Graph& g);
+
+ParseResults rai_algo_bfs(const std::string& start, const std::string& end, const Graph& graph);
+ParseResults rai_algo_dfs(const std::string& start, const std::string& end, const Graph& graph);
 
