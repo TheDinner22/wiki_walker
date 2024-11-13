@@ -1,62 +1,34 @@
 #include "the_graph.hpp"
 
-// I worked on this quiz with my buddy, Sammy Li
-
-#include <algorithm>
 #include <vector>
 #include <unordered_map>
 
-void Graph::insertEdge(int from, int to, int weight) 
-{
+void Graph::insertEdge(std::string from, std::string to) {
     // ensure from and to exists
-    if(graph.count(from) == 0){ graph[from]; }
-    if(graph.count(to) == 0){ graph[to]; }
+    if(graph.count(from) == 0){ graph[from] = {}; }
+    if(graph.count(to) == 0){ graph[to] = {}; }
 
     // insert edge
-    graph[from][to].push_back(weight);
+    graph[from].insert(to);
 }
         
-bool Graph::isEdge(int from, int to) 
+bool Graph::isEdge(std::string from, std::string to) 
 {
     return graph[from].count(to);
 }
 
-int Graph::sumEdge(int from, int to)
+std::vector<std::string> Graph::getAdjacent(std::string vertex) 
 {
-    int sum = 0;
-
-    if(graph[from].count(to) == 1){
-        for(auto wgt : graph[from][to]){
-            sum += wgt;
-        }
+    std::vector<std::string> nodes;
+    nodes.reserve(graph[vertex].size());
+    for(auto s : graph[vertex]){
+        nodes.push_back(s);
     }
-
-    // TODO add other?
-
-    return sum;
+    return nodes;
 }
 
-std::vector<int> Graph::getWeight(int from, int to)
-{
-    if(graph[from].count(to) == 0){return {};}
-    std::vector<int> weights;
-    for(int wgt: graph[from][to]){
-        weights.push_back(wgt);
-    }
+uint Graph::out_degree(const std::string& vertex){
+    if (graph.count(vertex) == 0){ return 0; }
 
-    std::sort(weights.begin(), weights.end());
-    return weights;
-
-}
-
-std::vector<int> Graph::getAdjacent(int vertex) 
-{
-    std::vector<int> vs;
-    for(auto edge : graph[vertex]){
-        for(int i = 0; i < int(edge.second.size()); i++){
-            vs.push_back(edge.first);
-        }
-    }
-    std::sort(vs.begin(), vs.end());
-    return vs;
+    return graph[vertex].size();
 }
