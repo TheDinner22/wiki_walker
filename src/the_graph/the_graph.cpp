@@ -4,6 +4,8 @@
 #include <unordered_map>
 
 void Graph::insertEdge(std::string from, std::string to) {
+    if(from == to){return;}
+
     // ensure from and to exists
     if(graph.count(from) == 0){ graph[from] = {}; }
     if(graph.count(to) == 0){ graph[to] = {}; }

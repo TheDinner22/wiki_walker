@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+#include <iostream>
 
 
 // SIMPLE DIRECTED UNWEIGHTED GRAPH! nodes cannot point to themselves and there are no parallel edges
@@ -12,6 +13,16 @@ private:
    std::unordered_map<std::string, std::unordered_set<std::string>> graph;
 
 public:
+    void reset(){
+       graph.clear();
+    }
+
+    void print(){
+        for(auto node: graph){
+            std::cout << node.first << std::endl;
+        }
+        std::cout << num_nodes() << std::endl;
+    }
     
     // insert an edge (and the nodes if they don't already exist)
     void insertEdge(std::string from, std::string to);

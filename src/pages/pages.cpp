@@ -3,7 +3,10 @@
 #include "dependencies/httplib.h"
 #include "search_algorithms/search_algorithms.hpp"
 #include "the_graph/the_graph.hpp"
+#include "wiki_api/wiki_api.hpp"
 #include <queue>
+#include <string>
+#include <unordered_set>
 
 std::string pages::landing_page(){
     return "hello world";
@@ -55,7 +58,7 @@ struct ThisIsBadCode{
     std::basic_string<char> start_page;
 };
 ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res);
-void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name){
+void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, const Graph& g){
     // get start and end page
     auto results = get_start_page(req, res);
     if(results.valid == false){ return; }
@@ -66,12 +69,10 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
         algo_results = keep_picking_random(results.start_page);
     }
     else if(f_name == "r"){
-        Graph g;
         algo_results = rai_algo(results.start_page, g);
     }
 
     else if(f_name == "h"){
-        Graph g;
         algo_results = hubert_algo(results.start_page, g);
     }
     else {
@@ -113,21 +114,40 @@ ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res
     return results;
 }
 
-void pages::create_graph(const httplib::Request& req, httplib::Response &res){
+void pages::create_graph(const httplib::Request& req, httplib::Response &res, Graph& g){
+    g.reset();
+
     // parse shit from request
     auto parsed_req = get_start_page(req, res);
-    std::string start_page_name = parsed_req.start_page;
+    std::basic_string_view<char> start_page_name = parsed_req.start_page;
     if (parsed_req.valid == false){ return; }
 
     // TODO what todo if the thing is empty (nice error msg)
 
     const int NUMBER_OF_NODES = 1000;
-    Graph g;
-    std::queue<std::string> q;
+    std::queue<std::basic_string_view<char>> q;
+    std::unordered_set<std::basic_string_view<char>> viewed_pages;
+    q.push(start_page_name);
+    viewed_pages.insert(start_page_name);
 
-    while(g.num_nodes() < NUMBER_OF_NODES){
+    while(g.num_nodes() < NUMBER_OF_NODES && q.size() != 0){
+        auto current_node = q.front();
+        q.pop();
 
+        auto links = get_links(current_node);
+
+        // add edges between current_node and links
+        // also keep track of the links that we have already visited
+        // also enque new links
+        for(auto link : links){
+            if(viewed_pages.count(link) == 0){
+                g.insertEdge(current_node.data(), link.data()); // disgusting copy slowing my code down
+                viewed_pages.insert(link);
+                q.push(link);
+            }
+        }
     }
 
-    res.set_content("hi i got here", "text/plain");
+    std::string msg = "<p>Traversed <strong>" + std::to_string(g.num_nodes()) + "</strong> nodes!</p>";
+    res.set_content(msg, "text/plain");
 }
