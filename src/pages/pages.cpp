@@ -3,6 +3,7 @@
 #include "dependencies/httplib.h"
 #include "search_algorithms/search_algorithms.hpp"
 #include "the_graph/the_graph.hpp"
+#include <queue>
 
 std::string pages::landing_page(){
     return "hello world";
@@ -50,28 +51,28 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
 
 struct ThisIsBadCode{
     bool valid;
+    // TODO BIG CHANGE HERE
     std::basic_string<char> start_page;
-    std::basic_string<char> end_page;
 };
-ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Response &res);
+ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res);
 void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name){
     // get start and end page
-    auto results = get_start_and_end_page(req, res);
+    auto results = get_start_page(req, res);
     if(results.valid == false){ return; }
 
     // perform search
     ParseResults algo_results;
     if(f_name.size() == 0){
-        algo_results = keep_picking_random(results.start_page, results.end_page);
+        algo_results = keep_picking_random(results.start_page);
     }
     else if(f_name == "r"){
         Graph g;
-        algo_results = rai_algo(results.start_page, results.end_page, g);
+        algo_results = rai_algo(results.start_page, g);
     }
 
     else if(f_name == "h"){
         Graph g;
-        algo_results = hubert_algo(results.start_page, results.end_page, g);
+        algo_results = hubert_algo(results.start_page, g);
     }
     else {
         std::cout << "INVALID" << std::endl;
@@ -81,28 +82,20 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     res.set_content(algo_results.as_html_card(), "text/html");
 }
 
-ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Response &res){
+ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res){
     // get start and end page
     std::basic_string<char> start_page;
-    std::basic_string<char> end_page;
-    bool p1_exists = false;
     bool p2_exists = false;
     for(auto param: req.params){
-        if(param.first == "input1"){
+        if(param.first == "input2"){
             start_page = param.second;
-            p1_exists = true;
-        }
-
-        else if(param.first == "input2"){
-            end_page = param.second;
             p2_exists = true;
+            break;
         }
-
-        if(p1_exists && p2_exists){break;}
     }
 
     // bad Request
-    if(!p1_exists || !p2_exists){
+    if(!p2_exists){
         res.status = httplib::BadRequest_400;
         res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
         ThisIsBadCode r;
@@ -110,9 +103,8 @@ ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Respo
         return r;
     }
     ThisIsBadCode results;
-    results.valid = p1_exists && p2_exists;
+    results.valid = p2_exists;
     results.start_page = start_page;
-    results.end_page = end_page;
 
     if(results.valid == false){
         std::cout << "was false" << std::endl;
@@ -122,5 +114,20 @@ ThisIsBadCode get_start_and_end_page(const httplib::Request& req, httplib::Respo
 }
 
 void pages::create_graph(const httplib::Request& req, httplib::Response &res){
+    // parse shit from request
+    auto parsed_req = get_start_page(req, res);
+    std::string start_page_name = parsed_req.start_page;
+    if (parsed_req.valid == false){ return; }
+
+    // TODO what todo if the thing is empty (nice error msg)
+
+    const int NUMBER_OF_NODES = 1000;
+    Graph g;
+    std::queue<std::string> q;
+
+    while(g.num_nodes() < NUMBER_OF_NODES){
+
+    }
+
     res.set_content("hi i got here", "text/plain");
 }

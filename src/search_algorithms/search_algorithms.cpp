@@ -4,7 +4,7 @@
 
 // the get_links function 
 // returns all page names pointed to by a page name
-ParseResults keep_picking_random(const std::string& start, std::string& end){
+ParseResults keep_picking_random(const std::string& start){
     RealWebSearcher searcher;
 
     std::basic_string_view<char> next = start;

@@ -27,5 +27,7 @@ public:
 
     // out degree of a given node
     uint out_degree(const std::string& vertex);
+
+    uint num_nodes();
 };
 

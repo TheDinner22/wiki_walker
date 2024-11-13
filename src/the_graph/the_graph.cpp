@@ -32,3 +32,7 @@ uint Graph::out_degree(const std::string& vertex){
 
     return graph[vertex].size();
 }
+
+uint Graph::num_nodes(){
+    return graph.size();
+}
