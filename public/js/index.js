@@ -1,3 +1,4 @@
+// just read the top box
 function read_inputs(){
     in2 = document.getElementById("input2");
     return {
@@ -5,6 +6,7 @@ function read_inputs(){
     }
 }
 
+// read bottom two boxes
 function read_start_end(){
     in3 = document.getElementById("input3");
     in4 = document.getElementById("input4");
@@ -18,12 +20,9 @@ function read_start_end(){
 function hide(class_name){ return () => { document.querySelector(class_name).classList.add("hidden"); } }
 function un_hide(class_name){ return () => { document.querySelector(class_name).classList.remove("hidden"); } }
 
-// li_got_clicked
-function li_got_clicked(e){
-    console.log("hi")
-    content = e.target.innerText;
-    console.log(content)
-
+function li_got_clicked(event, textbox_id){
+    // just set the textbox with given id to have the value
+    document.getElementById(textbox_id).value = event.target.innerText;
 }
 
 function input_hint_setup(input_id, hint_class_name){

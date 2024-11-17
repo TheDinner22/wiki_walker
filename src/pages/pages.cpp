@@ -8,16 +8,16 @@
 #include <string>
 #include <unordered_set>
 
-std::string pages::landing_page(){
-    return "hello world";
-}
-
 void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     // all this code and I'm just parsing an input
     std::basic_string<char> input_value;
+    std::basic_string<char> input_key;
     bool input_exists = false;
+
+    // the web is stringly typed and it's a fucking travesty
     for(auto param: req.params){
-        if(param.first == "input"){
+        if(param.first == "input2" || param.first == "input3" || param.first == "input4"){
+            input_key = param.first;
             input_value = param.second;
             input_exists = true;
             break;
@@ -44,7 +44,7 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     // if results, format them and return
     std::string final_html = "<ul id=\"search-results\">";
     for (auto result: results){
-        final_html += "<li onclick=\"alert('hi')\">";
+        final_html += "<li onclick=\"li_got_clicked(event, '" + input_key + "')\">";
         final_html += result;
         final_html += "</li>";
     }

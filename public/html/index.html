@@ -57,6 +57,7 @@
             padding: 8px;
             border-bottom: 1px solid #ccc;
             background-color: #005EB8;
+            margin: 0;
         }
 
         #search-results li:hover {
@@ -87,7 +88,7 @@
     <div class="container">
         <div class="input-container">
             <div class="input-field col s5">
-                <input type="text" id="input2" placeholder="Start Page" required hx-get="/api/search_hint" name="input"
+                <input type="text" id="input2" placeholder="Start Page" required hx-get="/api/search_hint" name="input2"
                     hx-trigger="keyup changed delay:300ms" hx-target=".input2_hint" hx-swap="innerHTML">
                 <label for="input2">Start Page</label>
                 <div class="input2_hint hidden"></div>
@@ -101,13 +102,13 @@
             <hr>
 
             <div class="input-field col s5">
-                <input type="text" id="input3" placeholder="Start Page" required hx-get="/api/search_hint" name="input"
+                <input type="text" id="input3" placeholder="Start Page" required hx-get="/api/search_hint" name="input3"
                     hx-trigger="keyup changed delay:300ms" hx-target=".input3_hint" hx-swap="innerHTML">
                 <label for="input3">Start Page</label>
                 <div class="input3_hint hidden"></div>
             </div>
             <div class="input-field col s5">
-                <input type="text" id="input4" placeholder="End Page" required hx-get="/api/search_hint" name="input"
+                <input type="text" id="input4" placeholder="End Page" required hx-get="/api/search_hint" name="input4"
                     hx-trigger="keyup changed delay:300ms" hx-target=".input4_hint" hx-swap="innerHTML">
                 <label for="input4">Start Page</label>
                 <div class="input4_hint hidden"></div>

@@ -19,8 +19,6 @@ int main(void){
 
     // landing page
     svr.Get("/", [](const httplib::Request &, httplib::Response &res) {
-        std::string page_html = pages::landing_page();
-        //res.set_content(page_html, "text/html");
         res.set_redirect("/public/html/index.html");
     });
 

@@ -5,9 +5,6 @@
 #include "the_graph/the_graph.hpp"
 
 namespace pages {
-    // just grab some html
-    std::string landing_page();
-
     // validate and parse req
     // send get request
     // format response as html
