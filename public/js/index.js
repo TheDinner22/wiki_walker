@@ -32,49 +32,6 @@ function input_hint_setup(input_id, hint_class_name){
     input1.addEventListener("focusout", hide(hint_class_name));
 }
 
-function graph_tests(){
-    var cy = cytoscape({
-        container: document.querySelector('.tree-container'), // container to render in
-        elements: [ // list of graph elements to start with
-            { // node a
-                data: { id: 'a' }
-            },
-            { // node b
-                data: { id: 'b' }
-            },
-            { // edge ab
-                data: { id: 'ab', source: 'a', target: 'b' }
-            }
-        ],
-
-        style: [ // the stylesheet for the graph
-            {
-                selector: 'node',
-                    style: {
-                        'background-color': '#666',
-                            'label': 'data(id)'
-                    }
-            },
-
-            {
-                selector: 'edge',
-                style: {
-                    'width': 3,
-                    'line-color': '#ccc',
-                    'target-arrow-color': '#ccc',
-                    'target-arrow-shape': 'triangle',
-                    'curve-style': 'bezier'
-                }
-            }
-        ],
-
-        layout: {
-            name: 'grid',
-            rows: 1
-        }
-    });
-}
-
 /*
     
     {
@@ -126,9 +83,8 @@ function make_graph(data){
         ],
 
         layout: {
-            name: 'grid',
-            rows: 100,
-            columns: 100
+            name: 'concentric',
+            fit: true,
         }
     });
 
