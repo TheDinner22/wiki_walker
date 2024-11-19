@@ -75,7 +75,64 @@ function graph_tests(){
     });
 }
 
+/*
+    
+    {
+        endpoint: function name
+        nodes: list of nodes
+        edges: edge list [ [to from], [to from], [to, from]]
 
+    }
+
+    * */
+function make_graph(data){
+    // first create a nodes list
+    let elements = [];
+    for (let i = 0; i < data.nodes.length; i++) {
+        elements.push({ data: {id: data.nodes[i]}});
+    }
+
+    // next add edges
+    for (let i = 0; i < data.edges.length; i++) {
+        elements.push({
+            data: { id: data.edges[i][0]+data.edges[i][1], source: data.edges[i][0], target: data.edges[i][1] }
+        });
+    }
+    
+    // and we should be able to see a graph
+    var cy = cytoscape({
+        container: document.querySelector('.tree-container'), // container to render in
+        elements: elements,
+
+        style: [ // the stylesheet for the graph
+            {
+                selector: 'node',
+                    style: {
+                        'background-color': '#666',
+                            'label': 'data(id)'
+                    }
+            },
+
+            {
+                selector: 'edge',
+                style: {
+                    'width': 3,
+                    'line-color': '#ccc',
+                    'target-arrow-color': '#ccc',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier'
+                }
+            }
+        ],
+
+        layout: {
+            name: 'grid',
+            rows: 100,
+            columns: 100
+        }
+    });
+
+}
 
 // this is the same as main in js land
 document.addEventListener('DOMContentLoaded', () => {
@@ -84,12 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = event.detail.xhr.responseText;
         try {
             const data = JSON.parse(response);
-            console.log(data)
+            if (data.endpoint === 'make_graph') {
+                make_graph(data);
+            }
         } catch (e) {}
 
-        //if (data.action === 'runFunction') {
-            //myFunction(data.message);
-        //}
     });
 
     //input_hint_setup("input1", ".input1_hint");
