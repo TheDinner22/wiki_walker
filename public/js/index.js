@@ -32,13 +32,71 @@ function input_hint_setup(input_id, hint_class_name){
     input1.addEventListener("focusout", hide(hint_class_name));
 }
 
+function graph_tests(){
+    var cy = cytoscape({
+        container: document.querySelector('.tree-container'), // container to render in
+        elements: [ // list of graph elements to start with
+            { // node a
+                data: { id: 'a' }
+            },
+            { // node b
+                data: { id: 'b' }
+            },
+            { // edge ab
+                data: { id: 'ab', source: 'a', target: 'b' }
+            }
+        ],
+
+        style: [ // the stylesheet for the graph
+            {
+                selector: 'node',
+                    style: {
+                        'background-color': '#666',
+                            'label': 'data(id)'
+                    }
+            },
+
+            {
+                selector: 'edge',
+                style: {
+                    'width': 3,
+                    'line-color': '#ccc',
+                    'target-arrow-color': '#ccc',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier'
+                }
+            }
+        ],
+
+        layout: {
+            name: 'grid',
+            rows: 1
+        }
+    });
+}
+
 
 
 // this is the same as main in js land
 document.addEventListener('DOMContentLoaded', () => {
+    // after every htmx:request :(
+    document.body.addEventListener('htmx:afterRequest', function(event) {
+        const response = event.detail.xhr.responseText;
+        try {
+            const data = JSON.parse(response);
+            console.log(data)
+        } catch (e) {}
+
+        //if (data.action === 'runFunction') {
+            //myFunction(data.message);
+        //}
+    });
+
     //input_hint_setup("input1", ".input1_hint");
     input_hint_setup("input2", ".input2_hint");
     input_hint_setup("input3", ".input3_hint");
     input_hint_setup("input4", ".input4_hint");
+
+    // graph_tests();
 })
 

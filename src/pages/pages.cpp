@@ -91,7 +91,7 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     res.set_content(algo_results.as_html_card(), "text/html");
 }
 
-ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res){
+ThisIsBadCode get_start_page(const httplib::Request& req){
     // get start and end page
     std::basic_string<char> start_page;
     bool p2_exists = false;
@@ -105,8 +105,6 @@ ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res
 
     // bad Request
     if(!p2_exists){
-        res.status = httplib::BadRequest_400;
-        res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
         ThisIsBadCode r;
         r.valid = false;
         return r;
@@ -159,13 +157,13 @@ ThisIsBadCode get_start_end(const httplib::Request& req, httplib::Response &res)
     return results;
 }
 
-void pages::create_graph(const httplib::Request& req, httplib::Response &res, Graph& g){
+bool pages::create_graph(const httplib::Request& req, Graph& g){
     g.reset();
 
     // parse shit from request
-    auto parsed_req = get_start_page(req, res);
+    auto parsed_req = get_start_page(req);
     std::basic_string_view<char> start_page_name = parsed_req.start_page;
-    if (parsed_req.valid == false){ return; }
+    if (parsed_req.valid == false){ return false; }
 
     // TODO what todo if the thing is empty (nice error msg)
 
@@ -193,6 +191,5 @@ void pages::create_graph(const httplib::Request& req, httplib::Response &res, Gr
         }
     }
 
-    std::string msg = "<p>Traversed <strong>" + std::to_string(g.num_nodes()) + "</strong> nodes!</p>";
-    res.set_content(msg, "text/plain");
+    return true;
 }

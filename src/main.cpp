@@ -10,6 +10,7 @@ int main(void){
     // HTTP
     httplib::Server svr;
 
+    // TODO make this but w map
     Graph g;
 
     bool worked = svr.set_mount_point("/public", "./public");
@@ -29,7 +30,12 @@ int main(void){
 
     // called when we need to create a graph to search
     svr.Get("/api/create_tree", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::create_graph(req, res, g);
+        // create the tree
+        // TODO maybe move create_graph out of pages since it isn't generating a response
+        pages::create_graph(req, g);
+
+        // return the graph as json
+        res.set_content(g.as_json(), "application/json");
     });
 
     // called when the button is pressed and both inputs are sent in as params

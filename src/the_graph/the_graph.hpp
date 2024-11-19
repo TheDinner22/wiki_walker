@@ -6,7 +6,6 @@
 #include <string>
 #include <iostream>
 
-
 // SIMPLE DIRECTED UNWEIGHTED GRAPH! nodes cannot point to themselves and there are no parallel edges
 class Graph {
 private:
@@ -14,6 +13,38 @@ private:
 
 public:
     void reset(){ graph.clear(); }
+
+    std::string as_json(){
+        /*
+        {
+            "endpoint": "function name",
+            "nodes": [a list of all node names],
+            "edges": [ [], [], []] // each sub list contains to, from pairs that define edges
+        }
+         **/
+        std::string json_str = "{\"endpoint\": \"make_graph\",\"nodes\":[";
+
+        // add node edges
+        for(auto s: graph){
+            json_str += '"' + s.first + '"';
+            json_str += ',';
+        }
+        json_str.pop_back();
+        json_str += "],\"edges\":[";
+
+        // add edges
+        for(auto key_val: graph){
+            for(auto to: key_val.second){
+                json_str += "[\"" + key_val.first + "\",\"" + to + "\"],";
+            }
+        }
+
+        json_str.pop_back();
+        json_str += "]}";
+
+        return json_str;
+         
+    }
 
     void print() const {
         for(auto node: graph){
