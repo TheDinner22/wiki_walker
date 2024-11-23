@@ -7,11 +7,20 @@
 void Graph::insertEdge(std::string from, std::string to) {
     if(from == to){return;}
 
+    // insert edge
+    // replace all '"' with \" or smt idk
+    while(from.find('"') != std::string::npos){
+        from.replace(from.find('"'), 1, 1, '\'');
+    }
+
+    while(to.find('"') != std::string::npos){
+        to.replace(to.find('"'), 1, 1, '\'');
+    }
+
     // ensure from and to exists
     if(graph.count(from) == 0){ graph[from] = {}; }
     if(graph.count(to) == 0){ graph[to] = {}; }
 
-    // insert edge
     graph[from].insert(to);
 }
         
