@@ -55,7 +55,8 @@ function make_graph(data){
             data: { id: data.edges[i][0]+data.edges[i][1], source: data.edges[i][0], target: data.edges[i][1] }
         });
     }
-    
+
+
     // and we should be able to see a graph
     var cy = cytoscape({
         container: document.querySelector('.tree-container'), // container to render in
@@ -82,10 +83,64 @@ function make_graph(data){
             }
         ],
 
+        /*
         layout: {
-            name: 'concentric',
+            name: 'cise',
             fit: true,
+            clusters: arrayOfClusterArrays,
+            animate: false
         }
+        */
+    });
+
+    let clusters = cy.elements().markovClustering({
+        expandFactor: 2,        // affects time of computation and cluster granularity to some extent: M * M
+        inflateFactor: 2,       // affects cluster granularity (the greater the value, the more clusters): M(i,j) / E(j)
+        multFactor: 1,          // optional self loops for each node. Use a neutral value to improve cluster computations.
+        maxIterations: 10
+    });
+
+
+    for(var i = 0; i<clusters.length; i++){
+        for(var j = 0; j<clusters[i].length; j++){
+            clusters[i][j]._private.data.clusterID = j % 20;
+        }
+    }
+
+
+    let arrayOfClusterArrays = [];
+    let uniqueClusterIDs = [];
+    cy.nodes().forEach(function (node) {
+        let clusterID = node.data('clusterID');
+        console.log(clusterID)
+        if (uniqueClusterIDs.includes(clusterID)) {
+            if(arrayOfClusterArrays[clusterID] == undefined){
+                arrayOfClusterArrays[clusterID] = [];
+            }
+            else{
+                arrayOfClusterArrays[clusterID].push(node.data('id'));
+            }
+        }
+        else {
+            arrayOfClusterArrays.push([node.data('id')]);
+        }
+    });
+
+    console.log(arrayOfClusterArrays) // the issue is that this ends up as an array of arrays or some bs
+
+    cy.layout({
+        name: 'cise',
+        clusters: arrayOfClusterArrays,
+        fit: true,
+        nodeRepulsion: node => 4500,
+        gravity: 0.25,
+        gravityRange: 3.8,
+        refresh: 1,
+
+        maxIterations: 1000,        // Increase iterations for better precision
+        nodeDistance: 40,           // Reduce distance between nodes
+        edgeLength: 75,             // Fine-tune the edge length
+        nodeOverlap: 50,            // Control how nodes overlap
     });
 
 }
