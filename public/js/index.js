@@ -94,10 +94,10 @@ function make_graph(data){
     });
 
     let clusters = cy.elements().markovClustering({
-        expandFactor: 2,        // affects time of computation and cluster granularity to some extent: M * M
+        expandFactor: 1,        // affects time of computation and cluster granularity to some extent: M * M
         inflateFactor: 2,       // affects cluster granularity (the greater the value, the more clusters): M(i,j) / E(j)
         multFactor: 1,          // optional self loops for each node. Use a neutral value to improve cluster computations.
-        maxIterations: 10
+        maxIterations: 5
     });
 
 
@@ -125,7 +125,7 @@ function make_graph(data){
         gravityRange: 3.8,
         refresh: 1,
 
-        maxIterations: 1000,        // Increase iterations for better precision
+        maxIterations: 100,        // Increase iterations for better precision
         nodeDistance: 40,           // Reduce distance between nodes
         edgeLength: 75,             // Fine-tune the edge length
         nodeOverlap: 50,            // Control how nodes overlap
