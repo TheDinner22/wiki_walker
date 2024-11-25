@@ -48,9 +48,22 @@ public:
 
     void print() const {
         for(auto node: graph){
+            std::cout << "-------------------------" << std::endl;
             std::cout << node.first << std::endl;
+            for(auto next: node.second){
+                std::cout << next << " ";
+            }
+            std::cout << std::endl;
         }
         std::cout << num_nodes() << std::endl;
+    }
+
+    int num_edges() const {
+        int count = 0;
+        for(auto node: this->graph){
+            count += node.second.size();
+        }
+        return count;
     }
     
     // insert an edge (and the nodes if they don't already exist)

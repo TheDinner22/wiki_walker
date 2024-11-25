@@ -68,7 +68,7 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     // perform search
     ParseResults algo_results;
     if(f_name.size() == 0){
-        algo_results = keep_picking_random(results.start_page);
+        algo_results = keep_picking_random(results.start_page, results.end_page, g);
     }
     else if(f_name == "bfs"){
         algo_results = rai_algo_bfs(results.start_page, results.end_page, g);
@@ -183,8 +183,10 @@ bool pages::create_graph(const httplib::Request& req, Graph& g){
         // add edges between current_node and links
         // also keep track of the links that we have already visited
         // also enque new links
+        int i = 0;
         for(auto link : links){
             if(viewed_pages.count(link) == 0){
+                if(i++ > 15){ break; }
                 g.insertEdge(current_node.data(), link.data()); // disgusting copy slowing my code down
                 viewed_pages.insert(link);
                 q.push(link);

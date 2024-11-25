@@ -23,7 +23,7 @@ struct ParseResults {
     int num_requests_sent = 0;
     int pages_visited = 0;
     std::string algo_name;
-    std::vector<std::basic_string_view<char>> shortest_path;
+    std::vector<std::string> shortest_path;
 
     /*
     <div class="card">
@@ -52,7 +52,7 @@ struct ParseResults {
 };
 
 // here's an example that traverses the 20th link (assuming it exists) ten times
-ParseResults keep_picking_random(const std::string& start);
+ParseResults keep_picking_random(const std::string& start, const std::string& end, const Graph& g);
 
 ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g);
 ParseResults hubert_algo_a_star(const std::string& start, const std::string& end, const Graph& g);

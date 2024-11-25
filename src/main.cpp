@@ -1,7 +1,6 @@
-#include <iostream>
-
 #include "./pages/pages.hpp"
 #include "the_graph/the_graph.hpp"
+#include <string>
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 int main(void){
@@ -30,7 +29,8 @@ int main(void){
     svr.Get("/api/create_tree", [&g](const httplib::Request &req, httplib::Response &res) {
         // create the tree
         // TODO maybe move create_graph out of pages since it isn't generating a response
-        pages::create_graph(req, g);
+        bool result = pages::create_graph(req, g);
+        if(!result){ std::cout << "cant make graph" << std::endl; }
 
         // return the graph as json
         res.set_content(g.as_json(), "application/json");
