@@ -1,5 +1,3 @@
-#include <dependencies/httplib.h>
-#include <curl/curl.h>
 #include <iostream>
 
 #include "./pages/pages.hpp"

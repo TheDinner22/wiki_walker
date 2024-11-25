@@ -167,7 +167,7 @@ bool pages::create_graph(const httplib::Request& req, Graph& g){
 
     // TODO what todo if the thing is empty (nice error msg)
 
-    const int NUMBER_OF_NODES = 3000;
+    const int NUMBER_OF_NODES = 1000;
     std::queue<std::basic_string_view<char>> q;
     std::unordered_set<std::basic_string_view<char>> viewed_pages;
     q.push(start_page_name);

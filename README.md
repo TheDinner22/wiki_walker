@@ -46,3 +46,8 @@ You should be able to modify files in vs code and see them update in Docker
 - picture of start and end
 - the path
 
+### todos
+
+- how to color nodes at will
+- maybe making some lists and shit on the server side makes life simpler (incremental somehow)
+
