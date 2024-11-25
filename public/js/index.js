@@ -108,31 +108,19 @@ function make_graph(data){
     }
 
 
-    let arrayOfClusterArrays = [];
-    let uniqueClusterIDs = [];
+    let arrayOfClusterArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
     cy.nodes().forEach(function (node) {
         let clusterID = node.data('clusterID');
-        console.log(clusterID)
-        if (uniqueClusterIDs.includes(clusterID)) {
-            if(arrayOfClusterArrays[clusterID] == undefined){
-                arrayOfClusterArrays[clusterID] = [];
-            }
-            else{
-                arrayOfClusterArrays[clusterID].push(node.data('id'));
-            }
-        }
-        else {
-            arrayOfClusterArrays.push([node.data('id')]);
-        }
+        const name = node.data('id');
+        arrayOfClusterArrays[clusterID].push(name)
     });
 
     console.log(arrayOfClusterArrays) // the issue is that this ends up as an array of arrays or some bs
 
-    cy.layout({
+    l = cy.layout({
         name: 'cise',
         clusters: arrayOfClusterArrays,
         fit: true,
-        nodeRepulsion: node => 4500,
         gravity: 0.25,
         gravityRange: 3.8,
         refresh: 1,
@@ -142,6 +130,7 @@ function make_graph(data){
         edgeLength: 75,             // Fine-tune the edge length
         nodeOverlap: 50,            // Control how nodes overlap
     });
+    l.run();
 
 }
 
