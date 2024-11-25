@@ -1,3 +1,5 @@
+var cy;
+
 // just read the top box
 function read_inputs(){
     in2 = document.getElementById("input2");
@@ -58,7 +60,7 @@ function make_graph(data){
 
 
     // and we should be able to see a graph
-    var cy = cytoscape({
+    cy = cytoscape({
         container: document.querySelector('.tree-container'), // container to render in
         elements: elements,
 
@@ -134,6 +136,33 @@ function make_graph(data){
 
 }
 
+function color_node(node_id, color){
+    cy.style()
+        .selector('node[id="' + node_name +'"]')
+        .style({
+            'background-color': color
+        }).update()
+}
+
+function color_edge(from_id, to_id, color){
+    cy.style()
+        .selector('edge[id="' + from_id + to_id +'"]')
+        .style({
+            'background-color': color
+        }).update()
+}
+
+function color_path(path){
+    for (let index = 0; index < path.length-1; index++) {
+        const from = path[index];
+        const to = path[index+1];
+
+        color_node(from)
+        color_node(to)
+        color_edge(from+to)
+    }
+}
+
 // this is the same as main in js land
 document.addEventListener('DOMContentLoaded', () => {
     // after every htmx:request :(
@@ -152,7 +181,5 @@ document.addEventListener('DOMContentLoaded', () => {
     input_hint_setup("input2", ".input2_hint");
     input_hint_setup("input3", ".input3_hint");
     input_hint_setup("input4", ".input4_hint");
-
-    // graph_tests();
 })
 
