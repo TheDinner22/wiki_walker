@@ -136,9 +136,24 @@ function make_graph(data){
 
 }
 
+function reset_graph_colors(){
+    cy.style()
+        .selector('node')
+        .style({
+            'background-color': '#666',
+        }).update()
+
+    cy.style()
+        .selector('edge')
+        .style({
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+        }).update()
+}
+
 function color_node(node_id, color){
     cy.style()
-        .selector('node[id="' + node_name +'"]')
+        .selector('node[id="' + node_id +'"]')
         .style({
             'background-color': color
         }).update()
@@ -148,7 +163,8 @@ function color_edge(from_id, to_id, color){
     cy.style()
         .selector('edge[id="' + from_id + to_id +'"]')
         .style({
-            'background-color': color
+            'line-color': color,
+            'target-arrow-color': color,
         }).update()
 }
 
