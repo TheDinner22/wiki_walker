@@ -42,8 +42,8 @@ public:
         json_str.pop_back();
         json_str += "]}";
 
+        std::cout << "as str done" << std::endl;
         return json_str;
-         
     }
 
     void print() const {
