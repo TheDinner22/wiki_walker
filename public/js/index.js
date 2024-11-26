@@ -58,7 +58,6 @@ function make_graph(data){
         });
     }
 
-
     // and we should be able to see a graph
     cy = cytoscape({
         container: document.querySelector('.tree-container'), // container to render in
@@ -85,55 +84,15 @@ function make_graph(data){
             }
         ],
 
-        /*
         layout: {
-            name: 'cise',
             fit: true,
-            clusters: arrayOfClusterArrays,
-            animate: false
+            name: 'fcose',
+            nodeSeparation: 5000,
+            idealEdgeLength: edge => 500,
+            edgeElasticity: edge => 0.95,
+            numIter: 25000
         }
-        */
     });
-
-    let clusters = cy.elements().markovClustering({
-        expandFactor: 1,        // affects time of computation and cluster granularity to some extent: M * M
-        inflateFactor: 2,       // affects cluster granularity (the greater the value, the more clusters): M(i,j) / E(j)
-        multFactor: 1,          // optional self loops for each node. Use a neutral value to improve cluster computations.
-        maxIterations: 5
-    });
-
-
-    for(var i = 0; i<clusters.length; i++){
-        for(var j = 0; j<clusters[i].length; j++){
-            clusters[i][j]._private.data.clusterID = j % 20;
-        }
-    }
-
-
-    let arrayOfClusterArrays = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
-    cy.nodes().forEach(function (node) {
-        let clusterID = node.data('clusterID');
-        const name = node.data('id');
-        arrayOfClusterArrays[clusterID].push(name)
-    });
-
-    console.log(arrayOfClusterArrays) // the issue is that this ends up as an array of arrays or some bs
-
-    l = cy.layout({
-        name: 'cise',
-        clusters: arrayOfClusterArrays,
-        fit: true,
-        gravity: 0.25,
-        gravityRange: 3.8,
-        refresh: 1,
-
-        maxIterations: 100,        // Increase iterations for better precision
-        nodeDistance: 40,           // Reduce distance between nodes
-        edgeLength: 75,             // Fine-tune the edge length
-        nodeOverlap: 50,            // Control how nodes overlap
-    });
-    l.run();
-
 }
 
 function reset_graph_colors(){
