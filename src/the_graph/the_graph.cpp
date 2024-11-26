@@ -22,6 +22,8 @@ void Graph::insertEdge(std::string from, std::string to) {
     if(graph.count(to) == 0){ graph[to] = {}; }
 
     graph[from].insert(to);
+    // we have this line here as well since this should be an undirected graph
+    graph[to].insert(from);
 }
         
 bool Graph::isEdge(std::string from, std::string to) const

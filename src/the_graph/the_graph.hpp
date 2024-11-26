@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
@@ -23,6 +24,7 @@ public:
         }
          **/
         std::string json_str = "{\"endpoint\": \"make_graph\",\"nodes\":[";
+        std::unordered_map<std::string, std::unordered_set<std::string>> m;
 
         // add node edges
         for(auto s: graph){
@@ -35,7 +37,13 @@ public:
         // add edges
         for(auto key_val: graph){
             for(auto to: key_val.second){
+                bool from_to_exists = m[key_val.first].count(to) == 1;
+                bool to_from_exists = m[to].count(key_val.first) == 1;
+                if(from_to_exists || to_from_exists){ continue; }
+
                 json_str += "[\"" + key_val.first + "\",\"" + to + "\"],";
+                m[key_val.first].insert(to);
+                m[to].insert(key_val.first);
             }
         }
 
