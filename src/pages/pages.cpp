@@ -185,11 +185,11 @@ bool pages::create_graph(const httplib::Request& req, Graph& g){
         // also enque new links
         int i = 0;
         for(auto link : links){
+            g.insertEdge(current_node.data(), link.data()); // disgusting copy slowing my code down
             if(viewed_pages.count(link) == 0){
-                if(i++ > 15){ break; }
-                g.insertEdge(current_node.data(), link.data()); // disgusting copy slowing my code down
-                viewed_pages.insert(link);
                 q.push(link);
+                viewed_pages.insert(link);
+                if(i++ > 15){break;}
             }
         }
     }
