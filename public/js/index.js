@@ -118,23 +118,28 @@ function color_node(node_id, color){
         }).update()
 }
 
-function color_edge(from_id, to_id, color){
+function color_edge(from, to, color){
     cy.style()
-        .selector('edge[id="' + from_id + to_id +'"]')
+        .selector('edge[id="' +from+to+'"]')
         .style({
             'line-color': color,
-            'target-arrow-color': color,
+            //'target-arrow-color': color,
         }).update()
 }
 
-function color_path(path){
+function color_path(path, color){
     for (let index = 0; index < path.length-1; index++) {
         const from = path[index];
         const to = path[index+1];
 
-        color_node(from)
-        color_node(to)
-        color_edge(from+to)
+        color_node(from, color)
+        color_node(to, color)
+        try {
+            color_edge(from, to, color)
+        } catch (e) { }
+        try {
+            color_edge(to, from, color)
+        } catch (e) { }
     }
 }
 
@@ -150,6 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (e) {}
 
+    });
+
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        if(event.target.querySelectorAll("script").length == 1){
+            const p = JSON.parse(event.target.querySelector("script").innerText);
+            reset_graph_colors();
+            color_path(p, 'red');
+        }
     });
 
     //input_hint_setup("input1", ".input1_hint");

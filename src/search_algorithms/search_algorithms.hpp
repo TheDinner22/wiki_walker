@@ -46,6 +46,20 @@ struct ParseResults {
             msg += "</li>";
         }
         msg += "</ul></div>";
+        msg += "<script type=\"application/json\" id=\""+ this->algo_name + "\">[";
+        
+        for(auto node_name : this->shortest_path){
+            std::string temp = node_name;
+
+            while(temp.find('"') != std::string::npos){
+                temp.replace(temp.find('"'), 1, 1, '\'');
+            }
+            msg += '"';
+            msg += temp;
+            msg += "\",";
+        }
+        msg.pop_back();
+        msg += "]</script>";
 
         return msg;
     }

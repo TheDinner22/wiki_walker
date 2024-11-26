@@ -15,6 +15,7 @@ ParseResults keep_picking_random(const std::string& start, const std::string& en
     pv+= adj.size();
     req_sent++;
 
+    // TODO this has loops but that dudnt matter
     while(path.size() < 10 && adj.size() >0){
         std::string next = adj[rand() % adj.size()];
         path.push_back(next);
