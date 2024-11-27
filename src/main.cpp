@@ -3,6 +3,15 @@
 #include <string>
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
+
+// function straight from here
+// https://stackoverflow.com/questions/631664/accessing-environment-variables-in-c
+std::string get_env_var( std::string const & key )
+{
+    char * val = getenv( key.c_str() );
+    return val == NULL ? std::string("") : std::string(val);
+}
+
 int main(void){
     // HTTP
     httplib::Server svr;
@@ -61,6 +70,8 @@ int main(void){
         pages::perform_search(req, res, "a", g);
     });
 
-    svr.listen("0.0.0.0", 8000);
+    std::string p = get_env_var("PORT");
+    std::cout << "port:" << p << std::endl;
+    svr.listen("0.0.0.0", std::stoi(p));
 }
 

@@ -7,13 +7,13 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y make
 RUN apt-get install -y libcurl4-openssl-dev
 RUN apt-get install -y ccache
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install cmatrix -y
 
 EXPOSE 8000/tcp
 
 # in prod it should just copy files
-#COPY src ./src/*
-#COPY public ./public/*
-#COPY Makefile ./Makefile
+COPY public ./public
+COPY Makefile ./Makefile
+COPY bin ./bin
+COPY build ./build
 
-CMD ["sleep", "infinity"]
+CMD ["./bin/main"]
