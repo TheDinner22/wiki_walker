@@ -1,16 +1,19 @@
 ### dependencies
 
-BACKEND
-HTTPRequest - https://github.com/elnormous/HTTPRequest
-curl lib - https://curl.se/libcurl/
+RESTFUL HTTP BACKEND with `HTTPRequest` - https://github.com/elnormous/HTTPRequest
+
+GET requests through curl lib - https://curl.se/libcurl/
+
 simdjson - json parser for c++
-FRONTEND
-htmx - worlds best front-end
+
+FRONTEND with `htmx` - worlds best front-end (seriously I could talk about htmx for hours it's so cool)
 
 ```
 I have no idea how to us lexbor and want to die
 heres an example
 https://stackoverflow.com/questions/69827153/lexbor-webscraping-an-html-table-in-c
+
+Good thing I scrapped Lexbor!!
 ```
 
 ### docker
@@ -18,7 +21,8 @@ https://stackoverflow.com/questions/69827153/lexbor-webscraping-an-html-table-in
 I have the whole thing stuck into a docker container so that it's easy to deploy
 
 you can build the image and then run it with docker desktop
-`docker build -t sampleapp:v5 .`
+
+`docker build -t sampleapp:v5 .` note that port forwarding is required (it's a web app what did you expect?)!!!
 
 #### docker dev
 
@@ -29,7 +33,7 @@ make sure you
 
 finally
  `docker exec -it <name> sh`
- will give you a terminal inside the machine
+ will give you a terminal inside the machine/image
 
 run `make`
 to run the server.
@@ -48,5 +52,4 @@ You should be able to modify files in vs code and see them update in Docker
 
 ### todos
 
-- lowk just put this shit on the web
 - also add some other web pages
