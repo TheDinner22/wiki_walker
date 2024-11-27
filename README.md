@@ -50,3 +50,4 @@ You should be able to modify files in vs code and see them update in Docker
 
 - lowk just put this shit on the web
 - also add some other web pages
+- add set for many graphs
