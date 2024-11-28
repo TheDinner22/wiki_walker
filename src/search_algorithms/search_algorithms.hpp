@@ -38,7 +38,7 @@ struct ParseResults {
         msg += algo_name;
         msg += "</strong>";
         msg = msg + "<p> Requests sent:" + std::to_string(num_requests_sent) +"</p>";
-        msg = msg + "<p> Requests sent:" + std::to_string(pages_visited) +"</p>";
+        msg = msg + "<p> Pages visited:" + std::to_string(pages_visited) +"</p>";
         msg += "<ul>";
         for(auto page_name: shortest_path){
             msg += "<li>";
