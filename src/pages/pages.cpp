@@ -8,6 +8,40 @@
 #include <string>
 #include <unordered_set>
 
+// take in some request and then get the expected query and or body
+// we expect both input boxes to be included (even if they are empty)
+ReqParams::ReqParams(const httplib::Request& req){
+    // get start and end page
+    std::basic_string<char> start_page;
+    std::basic_string<char> end_page;
+    std::basic_string<char> graph_name;
+    bool start_page_exists = false;
+    bool end_page_exists = false;
+    bool graph_name_exists = false;
+    for(auto param: req.params){
+        if(param.first == "input2"){
+            graph_name = param.second;
+            graph_name_exists = true;
+        }
+        if(param.first == "input3"){
+            start_page = param.second;
+            start_page_exists = true;
+        }
+        if(param.first == "input4"){
+            end_page = param.second;
+            end_page_exists = true;
+        }
+    }
+
+    this->start_page = start_page;
+    this->end_page = end_page;
+    this->graph_name = graph_name;
+    this->start_page_exists = start_page_exists;
+    this->end_page_exists = end_page_exists;
+    this->graph_name_exists = graph_name_exists;
+}
+
+
 void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     // all this code and I'm just parsing an input
     std::basic_string<char> input_value;
@@ -52,17 +86,9 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     res.set_content(final_html, "text/html");
 }
 
-struct ThisIsBadCode{
-    bool valid;
-    // TODO BIG CHANGE HERE
-    std::basic_string<char> start_page;
-    std::basic_string<char> end_page;
-};
-ThisIsBadCode get_start_page(const httplib::Request& req, httplib::Response &res);
-ThisIsBadCode get_start_end(const httplib::Request& req, httplib::Response &res);
 void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, const Graph& g){
     // get start and end page
-    auto results = get_start_end(req, res);
+    ReqParams results(req);
     if(results.valid == false){ return; }
 
     // perform search
@@ -89,72 +115,6 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
 
     // send html down
     res.set_content(algo_results.as_html_card(), "text/html");
-}
-
-ThisIsBadCode get_start_page(const httplib::Request& req){
-    // get start and end page
-    std::basic_string<char> start_page;
-    bool p2_exists = false;
-    for(auto param: req.params){
-        if(param.first == "input2"){
-            start_page = param.second;
-            p2_exists = true;
-            break;
-        }
-    }
-
-    // bad Request
-    if(!p2_exists){
-        ThisIsBadCode r;
-        r.valid = false;
-        return r;
-    }
-    ThisIsBadCode results;
-    results.valid = p2_exists;
-    results.start_page = start_page;
-
-    if(results.valid == false){
-        std::cout << "was false" << std::endl;
-    }
-    
-    return results;
-}
-
-ThisIsBadCode get_start_end(const httplib::Request& req, httplib::Response &res){
-    // get start and end page
-    std::basic_string<char> start_page;
-    std::basic_string<char> end_page;
-    bool p1_exists = false;
-    bool p2_exists = false;
-    for(auto param: req.params){
-        if(param.first == "input3"){
-            start_page = param.second;
-            p1_exists = true;
-        }
-        if(param.first == "input4"){
-            end_page = param.second;
-            p2_exists = true;
-        }
-    }
-
-    // bad Request
-    if(!p2_exists || !p1_exists){
-        res.status = httplib::BadRequest_400;
-        res.set_content("buddy never send me a raw HTTP reqeest again! Use the web interface", "text/plain");
-        ThisIsBadCode r;
-        r.valid = false;
-        return r;
-    }
-    ThisIsBadCode results;
-    results.valid = p2_exists && p1_exists;
-    results.start_page = start_page;
-    results.end_page = end_page;
-
-    if(results.valid == false){
-        std::cout << "was false" << std::endl;
-    }
-    
-    return results;
 }
 
 bool pages::create_graph(const httplib::Request& req, Graph& g){
@@ -197,3 +157,17 @@ bool pages::create_graph(const httplib::Request& req, Graph& g){
     std::cout << "handled" << std::endl;
     return true;
 }
+
+bool pages::cache_search(const httplib::Request& req, const std::unordered_map<std::string, Graph> graphs){
+    // return false if the graph isn't cached
+    // this isn't always an error condition so the caller should handle this bool accordingly
+    ReqParams result(req);
+
+    if(result.graph_name_exists == false){ return false; }
+
+    if(graphs.count(result.graph_name) == 0){return false; }
+    
+    // this true means that the graph is in the cache and is safe to use
+    return true;
+}
+

@@ -1,14 +1,15 @@
 #include "./pages/pages.hpp"
 #include "the_graph/the_graph.hpp"
 #include <string>
+#include <unordered_map>
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 int main(void){
     // HTTP
     httplib::Server svr;
 
-    // TODO make this but w map
-    Graph g;
+    // cached set of graphs
+    std::unordered_map<std::string, Graph> graphs;
 
     bool worked = svr.set_mount_point("/public", "./public");
     if(!worked){
@@ -26,7 +27,7 @@ int main(void){
     });
 
     // called when we need to create a graph to search
-    svr.Get("/api/create_tree", [&g](const httplib::Request &req, httplib::Response &res) {
+    svr.Get("/api/create_tree", [&graphs](const httplib::Request &req, httplib::Response &res) {
         // create the tree
         // TODO maybe move create_graph out of pages since it isn't generating a response
         bool result = pages::create_graph(req, g);
@@ -37,7 +38,7 @@ int main(void){
     });
 
     // called when the button is pressed and both inputs are sent in as params
-    svr.Get("/api/perform_search", [&g](const httplib::Request &req, httplib::Response &res) {
+    svr.Get("/api/perform_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
         pages::perform_search(req, res, "", g);
     });
 
