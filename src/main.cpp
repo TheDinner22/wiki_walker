@@ -28,13 +28,13 @@ int main(void){
 
     // called when we need to create a graph to search
     svr.Get("/api/create_tree", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        // create the tree
-        // TODO maybe move create_graph out of pages since it isn't generating a response
-        bool result = pages::create_graph(req, g);
+        // create the tree (or get a cache hit)
+        bool result = pages::create_graph(req, graphs);
         if(!result){ std::cout << "cant make graph" << std::endl; }
 
         // return the graph as json
-        res.set_content(g.as_json(), "application/json");
+        ReqParams params(req);
+        res.set_content(graphs[params.graph_name].as_json(), "application/json");
     });
 
     // called when the button is pressed and both inputs are sent in as params

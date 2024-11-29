@@ -28,7 +28,7 @@ namespace pages {
 
     void search_for_5_pages(const httplib::Request& req, httplib::Response &res);
 
-    bool create_graph(const httplib::Request& req, Graph& g);
+    bool create_graph(const httplib::Request& req, std::unordered_map<std::string, Graph>& graphs);
 
     bool cache_search(const httplib::Request& req, const std::unordered_map<std::string, Graph> graphs);
 }
