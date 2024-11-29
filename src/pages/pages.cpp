@@ -163,7 +163,11 @@ bool pages::create_graph(const httplib::Request& req, std::unordered_map<std::st
 
     // add the graph to the cache, make sure the cahce isn't too big
     const int MAX_CACHE_SIZE = 20;
-    if(graphs.size() >= MAX_CACHE_SIZE){ graphs.erase(graphs.end()); }
+    if(graphs.size() >= MAX_CACHE_SIZE){
+        auto dropped_name = graphs.begin()->first;
+        std::cout << "dropped:" << dropped_name << std::endl;
+        graphs.erase(dropped_name);
+    }
     graphs[result.graph_name] = g;
 
     std::cout << "handled" << std::endl;
