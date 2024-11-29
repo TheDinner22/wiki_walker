@@ -86,10 +86,15 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
     res.set_content(final_html, "text/html");
 }
 
-void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, const Graph& g){
+void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, std::unordered_map<std::string, Graph>& graphs){
     // get start and end page
     ReqParams results(req);
-    if(results.valid == false){ return; }
+    if(!results.graph_name_exists || !results.start_page_exists || !results.end_page_exists){ res.set_content("invalid request", "text/plain"); res.status = 400; }
+
+    // make sure that the graph actually exists
+    if(graphs.count(results.graph_name) == 0){ res.set_content("invalid request, graph miss", "text/plain"); res.status = 400; }
+
+    const Graph& g = graphs[results.graph_name];
 
     // perform search
     ParseResults algo_results;
@@ -162,19 +167,6 @@ bool pages::create_graph(const httplib::Request& req, std::unordered_map<std::st
     graphs[result.graph_name] = g;
 
     std::cout << "handled" << std::endl;
-    return true;
-}
-
-bool pages::cache_search(const httplib::Request& req, const std::unordered_map<std::string, Graph> graphs){
-    // return false if the graph isn't cached
-    // this isn't always an error condition so the caller should handle this bool accordingly
-    ReqParams result(req);
-
-    if(result.graph_name_exists == false){ return false; }
-
-    if(graphs.count(result.graph_name) == 0){return false; }
-    
-    // this true means that the graph is in the cache and is safe to use
     return true;
 }
 

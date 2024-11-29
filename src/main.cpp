@@ -39,27 +39,27 @@ int main(void){
 
     // called when the button is pressed and both inputs are sent in as params
     svr.Get("/api/perform_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "", g);
+        pages::perform_search(req, res, "", graphs);
     });
 
     // rai button
-    svr.Get("/api/perform_bfs_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "bfs", g);
+    svr.Get("/api/perform_bfs_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "bfs", graphs);
     });
 
     // rai button
-    svr.Get("/api/perform_dfs_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "dfs", g);
+    svr.Get("/api/perform_dfs_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "dfs", graphs);
     });
 
     // hubert button
-    svr.Get("/api/perform_d_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "d", g);
+    svr.Get("/api/perform_d_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "d", graphs);
     });
 
     // hubert button
-    svr.Get("/api/perform_a_search", [&g](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "a", g);
+    svr.Get("/api/perform_a_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
+        pages::perform_search(req, res, "a", graphs);
     });
 
     svr.listen("0.0.0.0", 8000);

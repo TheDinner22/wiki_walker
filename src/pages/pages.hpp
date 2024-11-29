@@ -24,12 +24,10 @@ namespace pages {
     // setup response
     void search_hint(const httplib::Request& req, httplib::Response &res);
 
-    void perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, const Graph& g);
+    void perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, std::unordered_map<std::string, Graph>& graphs);
 
     void search_for_5_pages(const httplib::Request& req, httplib::Response &res);
 
     bool create_graph(const httplib::Request& req, std::unordered_map<std::string, Graph>& graphs);
-
-    bool cache_search(const httplib::Request& req, const std::unordered_map<std::string, Graph> graphs);
 }
 
