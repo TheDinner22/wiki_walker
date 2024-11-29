@@ -132,7 +132,7 @@ bool pages::create_graph(const httplib::Request& req, std::unordered_map<std::st
     if(graphs.count(result.graph_name) == 1){return true;}
 
     // create the graph with bfs
-    std::basic_string_view<char> start_page_name = result.start_page;
+    std::basic_string_view<char> start_page_name = result.graph_name;
     const int NUMBER_OF_NODES = 1000;
     Graph g;
     std::queue<std::basic_string_view<char>> q;
