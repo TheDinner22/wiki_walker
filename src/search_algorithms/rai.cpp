@@ -24,6 +24,8 @@ ParseResults rai_algo_bfs(const std::string& start, const std::string& end, cons
 
         if (currentUrl == end) {
             cout << "Found URL using BFS: " << currentUrl << endl;
+            r.pages_visited = visited.size();
+            return r;
             // TODO
         }
 
@@ -61,6 +63,8 @@ ParseResults rai_algo_dfs(const std::string& start, const std::string& end, cons
 
         if (currentUrl == end) {
             cout << "Found URL using DFS: " << currentUrl << endl;
+            r.pages_visited = visited.size();
+            return r;
             // TODO
         }
 
