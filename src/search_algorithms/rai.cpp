@@ -53,38 +53,41 @@ ParseResults rai_algo_dfs(const std::string& start, const std::string& end, cons
     ParseResults r;
     r.num_requests_sent = 0;
     r.algo_name = "rai dfs";
-    r.shortest_path = {};
 
-    stack<string> toVisit;
+    stack<pair<string, vector<string>>> toVisit;
     unordered_set<string> visited;
 
-    toVisit.push(start);
+    vector<string> path = {start};
+    toVisit.push(make_pair(start, path));
 
     while (!toVisit.empty()) {
-        string currentUrl = toVisit.top();
+        pair<string,vector<string>> currentUrl = toVisit.top();
         toVisit.pop();
 
-        visited.insert(currentUrl);
+        visited.insert(currentUrl.first);
 
-        if (currentUrl == end) {
-            cout << "Found URL using DFS: " << currentUrl << endl;
+        if (currentUrl.first == end) {
+            cout << "Found URL using DFS: " << currentUrl.first << endl;
             r.pages_visited = visited.size();
+            r.shortest_path = currentUrl.second;
             return r;
-            // TODO
         }
 
         // this for loop "sends a request" getting a nodes adjacent nodes would require an http request
         // if the graph weren't already cached
         r.num_requests_sent++;
-        for (const string& neighbor : graph.getAdjacent(currentUrl)) {
+        for (const string& neighbor : graph.getAdjacent(currentUrl.first)) {
             if (visited.count(neighbor) == 0) {
-                toVisit.push(neighbor);
+                vector<string> new_path = currentUrl.second;
+                new_path.push_back(neighbor);
+                toVisit.push(make_pair(neighbor, new_path));
             }
         }
     }
 
     cout << "End URL not found using DFS." << endl;
     r.pages_visited = visited.size();
+    r.shortest_path = {};
     return r;
 }
 
