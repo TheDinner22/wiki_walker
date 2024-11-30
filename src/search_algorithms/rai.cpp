@@ -1,5 +1,6 @@
 #include "search_algorithms.hpp"
 #include <string>
+#include <utility>
 #include <vector>
 #include <queue>
 #include <stack>
@@ -10,37 +11,41 @@ ParseResults rai_algo_bfs(const std::string& start, const std::string& end, cons
     ParseResults r;
     r.num_requests_sent = 0;
     r.algo_name = "rai bfs";
-    r.shortest_path = {}; // TODO
 
-    queue<string> toVisit;
+    queue<pair<string, vector<string>>> toVisit;
     unordered_set<string> visited;
 
-    toVisit.push(start);
+    vector<string> path = {start};
+    toVisit.push(make_pair(start, path));
     visited.insert(start);
 
     while (!toVisit.empty()) {
-        string currentUrl = toVisit.front();
+        pair<string, vector<string>> currentUrl = toVisit.front();
         toVisit.pop();
 
-        if (currentUrl == end) {
-            cout << "Found URL using BFS: " << currentUrl << endl;
+        if (currentUrl.first == end) {
+            cout << "Found URL using BFS: " << currentUrl.first << endl;
             r.pages_visited = visited.size();
+            r.shortest_path = currentUrl.second;
             return r;
-            // TODO
         }
 
         // this for loop "sends a request" getting a nodes adjacent nodes would require an http request
         // if the graph weren't already cached
         r.num_requests_sent++;
-        for (const string& neighbor : graph.getAdjacent(currentUrl)) {
+        for (const string& neighbor : graph.getAdjacent(currentUrl.first)) {
             if (visited.count(neighbor) == 0) {
-                toVisit.push(neighbor);
+                vector<string> new_path = currentUrl.second;
+                new_path.push_back(neighbor);
+                toVisit.push(make_pair(neighbor, new_path));
                 visited.insert(neighbor);
             }
         }
     }
 
     r.pages_visited = visited.size();
+    r.shortest_path = {};
+    std::cout << "there is no path between: " << start << " -> " << end << std::endl;
     return r;
 
 }
