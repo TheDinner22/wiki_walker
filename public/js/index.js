@@ -3,18 +3,12 @@ var cy;
 // just read the top box
 function read_inputs(){
     in2 = document.getElementById("input2");
-    return {
-        "input2": in2.value
-    }
-}
-
-// read bottom two boxes
-function read_start_end(){
     in3 = document.getElementById("input3");
     in4 = document.getElementById("input4");
     return {
+        "input2": in2.value,
         "input3": in3.value,
-        "input4": in4.value,
+        "input4": in4.value
     }
 }
 
