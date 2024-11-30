@@ -1,81 +1,81 @@
 #include "search_algorithms.hpp"
-#include <iostream>
 #include <string>
-#include <map>
 #include <vector>
 #include <queue>
 #include <stack>
-#include <unordered_set>
 
-ParseResults rai_algo(const std::string& start, std::string& end){
+using namespace std;
+
+ParseResults rai_algo_bfs(const std::string& start, const std::string& end, const Graph& graph){
     ParseResults r;
-    r.num_requests_sent = 10;
-    r.pages_visited = 10;
-    r.algo_name = "rai button";
-    r.shortest_path = {"a", "b", "c"};
+    r.num_requests_sent = 0;
+    r.algo_name = "rai bfs";
+    r.shortest_path = {}; // TODO
 
-    bool bfs(const map<string, vector<string>>& graph, const string& startUrl, const string& endUrl) {
-        queue<string> toVisit;
-        unordered_set<string> visited;
+    queue<string> toVisit;
+    unordered_set<string> visited;
 
-        toVisit.push(startUrl);
-        visited.insert(startUrl);
+    toVisit.push(start);
+    visited.insert(start);
 
-        while (!toVisit.empty()) {
-            string currentUrl = toVisit.front();
-            toVisit.pop();
+    while (!toVisit.empty()) {
+        string currentUrl = toVisit.front();
+        toVisit.pop();
 
-            if (currentUrl == endUrl) {
-                cout << "Found URL using BFS: " << currentUrl << endl;
-                return true;
-            }
+        if (currentUrl == end) {
+            cout << "Found URL using BFS: " << currentUrl << endl;
+            // TODO
+        }
 
-            if (graph.find(currentUrl) != graph.end()) {
-                for (const string& neighbor : graph.at(currentUrl)) {
-                    if (visited.find(neighbor) == visited.end()) {
-                        toVisit.push(neighbor);
-                        visited.insert(neighbor);
-                    }
-                }
+        // this for loop "sends a request" getting a nodes adjacent nodes would require an http request
+        // if the graph weren't already cached
+        r.num_requests_sent++;
+        for (const string& neighbor : graph.getAdjacent(currentUrl)) {
+            if (visited.count(neighbor) == 0) {
+                toVisit.push(neighbor);
+                visited.insert(neighbor);
             }
         }
-        cout << "End URL not found using BFS." << endl;
-        return false;
     }
 
-    // DFS Function
-    bool dfs(const map<string, vector<string>>& graph, const string& startUrl, const string& endUrl) {
-        stack<string> toVisit;
-        unordered_set<string> visited;
+    r.pages_visited = visited.size();
+    return r;
 
-        toVisit.push(startUrl);
+}
+ParseResults rai_algo_dfs(const std::string& start, const std::string& end, const Graph& graph){
+    ParseResults r;
+    r.num_requests_sent = 0;
+    r.algo_name = "rai dfs";
+    r.shortest_path = {};
 
-        while (!toVisit.empty()) {
-            string currentUrl = toVisit.top();
-            toVisit.pop();
+    stack<string> toVisit;
+    unordered_set<string> visited;
 
-            if (visited.find(currentUrl) != visited.end()) {
-                continue;
-            }
+    toVisit.push(start);
 
-            visited.insert(currentUrl);
+    while (!toVisit.empty()) {
+        string currentUrl = toVisit.top();
+        toVisit.pop();
 
-            if (currentUrl == endUrl) {
-                cout << "Found URL using DFS: " << currentUrl << endl;
-                return true;
-            }
+        visited.insert(currentUrl);
 
-            if (graph.find(currentUrl) != graph.end()) {
-                for (const string& neighbor : graph.at(currentUrl)) {
-                    if (visited.find(neighbor) == visited.end()) {
-                        toVisit.push(neighbor);
-                    }
-                }
+        if (currentUrl == end) {
+            cout << "Found URL using DFS: " << currentUrl << endl;
+            // TODO
+        }
+
+        // this for loop "sends a request" getting a nodes adjacent nodes would require an http request
+        // if the graph weren't already cached
+        r.num_requests_sent++;
+        for (const string& neighbor : graph.getAdjacent(currentUrl)) {
+            if (visited.count(neighbor) == 0) {
+                toVisit.push(neighbor);
             }
         }
-        cout << "End URL not found using DFS." << endl;
-        return false;
     }
-//test for commit
+
+    cout << "End URL not found using DFS." << endl;
+    r.pages_visited = visited.size();
     return r;
 }
+
