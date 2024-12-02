@@ -5,12 +5,22 @@
 #include <utility>
 #include <vector>
 #include <queue>
-#include <set>
 #include <unordered_set>
 #include <unordered_map>
 #include <map>
 
 ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g){
+    // disgusting check by Joseph I am ashamed that I wrote the following if statement
+    if(g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
+        ParseResults r;
+        r.num_requests_sent = 0;
+        r.pages_visited = 0;
+        r.shortest_path = {};
+        r.algo_name = "hubert button dijkstra";
+        return r;
+    }
+
+
     ParseResults r;
     r.num_requests_sent = 0;
     r.algo_name = "hubert button dijkstra";
@@ -99,6 +109,7 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
 
     r.pages_visited = visited.size();
     r.shortest_path = shortest_path;
+
     return r;
 }
 
