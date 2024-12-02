@@ -242,6 +242,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     std::cout << "Starting path trace" << std::endl;
     while(prev_ind != -1)
     {
+        std::cout << "tracing" << index_to_link[prev_ind] << std::endl;
         shortest_path.push_back(index_to_link[prev_ind]);
         prev_ind = prev[prev_ind];
     }
