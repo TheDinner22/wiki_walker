@@ -208,7 +208,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         std::string curr_string = index_to_link[curr_ind];
         if(!(found))
         {
-            std::cout << "Current Vertex: " << distance_costs.top().second << std::endl;
+            std::cout << "Current Vertex: " << curr_string << std::endl;
         }
         if(curr_ind == end_index)
         {
@@ -226,7 +226,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
                     std::cout << "Neighbor check: " << neighbor << std::endl;
                 }
                 int new_edge_cost = distances[curr_ind] + 1;
-                if(distances[link_to_index[neighbor]] > new_edge_cost)
+                if(distances[link_to_index[neighbor]] >= new_edge_cost)
                 {
                     int new_total_cost = heur_distances[link_to_index[neighbor]] + new_edge_cost;
                     distance_costs.push(std::make_pair(new_total_cost,link_to_index[neighbor]));
