@@ -104,7 +104,7 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
         prev_ind = prev[prev_ind];
     }
 
-    // shortest_path is backwards???
+    // shortest_path is backwards
     std::reverse(shortest_path.begin(), shortest_path.end());
 
     r.pages_visited = visited.size();
@@ -150,7 +150,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         if(iter->first == start)
         {
             
-            distances[index] = 0;
+
             start_index = index;
         }
         else
@@ -190,7 +190,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
             }
         }
     }
-
+    distances[start_index] = heur_distances[start_index];
     distance_costs.push(std::make_pair((0 + heur_distances[start_index]),start_index));
     while(!(distance_costs.empty()))
     {
@@ -226,7 +226,8 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         shortest_path.push_back(index_to_link[prev_ind]);
         prev_ind = prev[prev_ind];
     }
+    
+    std::reverse(shortest_path.begin(), shortest_path.end());
     r.shortest_path = shortest_path;
-
     return r;
 }
