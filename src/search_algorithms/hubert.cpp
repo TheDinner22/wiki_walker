@@ -121,8 +121,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     }
     
     ParseResults r;
-    r.num_requests_sent = 10;
-    r.pages_visited = 10;
+    r.num_requests_sent = 0;
     r.algo_name = "hubert button a star";
 
     //first element is distance, the second is the index of string (use assoc to decode)
@@ -206,6 +205,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         std::vector<std::string>::iterator iter;
         if(visited.count(curr_ind) == 0)
         {
+            r.num_requests_sent++;
             visited.insert(curr_ind);
             for(iter = g.getAdjacent(curr_string).begin(); iter != g.getAdjacent(curr_string).end(); iter++)
             {
@@ -231,6 +231,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     }
     
     std::reverse(shortest_path.begin(), shortest_path.end());
+    r.pages_visited = visited.size();
     r.shortest_path = shortest_path;
     return r;
 }
