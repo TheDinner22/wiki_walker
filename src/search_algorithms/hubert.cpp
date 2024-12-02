@@ -143,6 +143,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     int end_index;
     int start_index;
     int index = 0;
+    std::cout << "Starting Djikstras Initializations" << std::endl;
     for(auto iter = g.get_graph().begin(); iter != g.get_graph().end(); iter++)
     {
         index_to_link[index] = iter->first;
@@ -175,6 +176,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     heur_dists.push(0);
     int heur_dist;
     heur_distances[end_index] = 0;
+    std::cout << "Starting BFS" << std::endl;
     while (!toVisit.empty()) 
     {
         std::string currentUrl = toVisit.front();
@@ -197,6 +199,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     }
     distances[start_index] = 0;
     distance_costs.push(std::make_pair((distances[start_index] + heur_distances[start_index]),start_index));
+    std::cout << "Starting A*" << std::endl;
     while(!(distance_costs.empty()))
     {
         int curr_ind = distance_costs.top().second;
@@ -224,6 +227,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     }
 
     int prev_ind = end_index;
+    std::cout << "Starting path trace" << std::endl;
     while(prev_ind != -1)
     {
         shortest_path.push_back(index_to_link[prev_ind]);
