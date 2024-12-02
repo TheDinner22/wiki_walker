@@ -75,10 +75,6 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
         if(visited.count(curr_ind) == 0)
         {
             visited.insert(curr_ind);
-            if(curr_ind == end_index)
-            {
-                break;
-            }
 
             // each time we go through this for loop, we must "send a get request"
             // (IE: query the graph for neighbors)
@@ -201,10 +197,6 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         if(visited.count(curr_ind) == 0)
         {
             visited.insert(curr_ind);
-            if(curr_ind == end_index)
-            {
-                break;
-            }
             for(iter = g.getAdjacent(curr_string).begin(); iter != g.getAdjacent(curr_string).end(); iter++)
             {
                 //if distance stored for vertex is greater than current distance + heur
