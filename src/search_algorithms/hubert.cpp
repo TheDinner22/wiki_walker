@@ -130,9 +130,9 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     int graph_size = g.num_nodes();
     std::unordered_set<int> visited;
     std::vector<std::string> shortest_path;
-    int prev[graph_size];
-    int heur_distances[graph_size];
-    int distances[graph_size];
+    std::vector<int> prev; prev.reserve(graph_size);
+    std::vector<int> distances; distances.reserve(graph_size);
+    std::vector<int> heur_distances; heur_distances.reserve(graph_size);
 
     //association maps
     std::map<int, std::string> index_to_link;
