@@ -89,10 +89,10 @@ void pages::search_hint(const httplib::Request& req, httplib::Response &res){
 void pages::perform_search(const httplib::Request& req, httplib::Response &res, const std::string& f_name, std::unordered_map<std::string, Graph>& graphs){
     // get start and end page
     ReqParams results(req);
-    if(!results.graph_name_exists || !results.start_page_exists || !results.end_page_exists){ res.set_content("invalid request", "text/plain"); res.status = 400; }
+    if(!results.graph_name_exists || !results.start_page_exists || !results.end_page_exists){ res.set_content("invalid request", "text/plain"); res.status = 400; return; }
 
     // make sure that the graph actually exists
-    if(graphs.count(results.graph_name) == 0){ res.set_content("invalid request, graph miss", "text/plain"); res.status = 400; }
+    if(graphs.count(results.graph_name) == 0){ res.set_content("invalid request, graph miss", "text/plain"); res.status = 400; return;}
 
     const Graph& g = graphs[results.graph_name];
 

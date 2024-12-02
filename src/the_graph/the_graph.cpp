@@ -63,3 +63,8 @@ uint Graph::out_degree(const std::string& vertex) const{
 uint Graph::num_nodes() const{
     return graph.size();
 }
+
+const std::unordered_map<std::string, std::unordered_set<std::string>>& Graph::get_graph() const
+{
+    return graph;
+}
