@@ -204,14 +204,15 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     while(!(distance_costs.empty()))
     {
         int curr_ind = distance_costs.top().second;
-        int total_cost = distance_costs.top().first;
         std::string curr_string = index_to_link[curr_ind];
         if(!(found))
         {
+            
             std::cout << "Current Vertex: " << curr_string << std::endl;
         }
         if(curr_ind == end_index)
         {
+            std::cout << "FOUND" << std::endl;
             found = true;
         }
         if(visited.count(curr_ind) == 0)
