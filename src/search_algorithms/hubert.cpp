@@ -205,21 +205,20 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         int curr_ind = distance_costs.top().second;
         int total_cost = distance_costs.top().first;
         std::string curr_string = index_to_link[curr_ind];
-        std::vector<std::string>::iterator iter;
         if(visited.count(curr_ind) == 0)
         {
             r.num_requests_sent++;
             visited.insert(curr_ind);
-            for(iter = g.getAdjacent(curr_string).begin(); iter != g.getAdjacent(curr_string).end(); iter++)
+            for(auto neighbor: g.getAdjacent(curr_string))
             {
                 //if distance stored for vertex is greater than current distance + heur
                 int new_edge_cost = distances[curr_ind] + 1;
-                if(distances[link_to_index[*iter]] > new_edge_cost)
+                if(distances[link_to_index[neighbor]] > new_edge_cost)
                 {
-                    int new_total_cost = heur_distances[link_to_index[*iter]] + new_edge_cost;
-                    distance_costs.push(std::make_pair(new_total_cost,link_to_index[*iter]));
-                    prev[link_to_index[*iter]] = curr_ind;
-                    distances[link_to_index[*iter]] = new_edge_cost;
+                    int new_total_cost = heur_distances[link_to_index[neighbor]] + new_edge_cost;
+                    distance_costs.push(std::make_pair(new_total_cost,link_to_index[neighbor]));
+                    prev[link_to_index[neighbor]] = curr_ind;
+                    distances[link_to_index[neighbor]] = new_edge_cost;
                 }
             }
         }
