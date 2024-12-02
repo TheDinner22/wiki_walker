@@ -12,7 +12,7 @@
 
 ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g){
     // disgusting check by Joseph I am ashamed that I wrote the following if statement
-    if(g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
+    if(g.num_nodes() == 0 || g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
         ParseResults r;
         r.num_requests_sent = 0;
         r.pages_visited = 0;
@@ -111,6 +111,15 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
 }
 
 ParseResults hubert_algo_a_star(const std::string& start, const std::string& end, const Graph& g){
+    if(g.num_nodes() == 0 || g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
+        ParseResults r;
+        r.num_requests_sent = 0;
+        r.pages_visited = 0;
+        r.shortest_path = {};
+        r.algo_name = "hubert button a star";
+        return r;
+    }
+    
     ParseResults r;
     r.num_requests_sent = 10;
     r.pages_visited = 10;
@@ -187,12 +196,12 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
             }
         }
     }
-    distances[start_index] = heur_distances[start_index];
-    distance_costs.push(std::make_pair((0 + heur_distances[start_index]),start_index));
+    distances[start_index] = 0;
+    distance_costs.push(std::make_pair((distances[start_index] + heur_distances[start_index]),start_index));
     while(!(distance_costs.empty()))
     {
         int curr_ind = distance_costs.top().second;
-        int distance = distance_costs.top().first;
+        int total_cost = distance_costs.top().first;
         std::string curr_string = index_to_link[curr_ind];
         std::vector<std::string>::iterator iter;
         if(visited.count(curr_ind) == 0)
@@ -201,12 +210,13 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
             for(iter = g.getAdjacent(curr_string).begin(); iter != g.getAdjacent(curr_string).end(); iter++)
             {
                 //if distance stored for vertex is greater than current distance + heur
-                int new_dist_cost = distance + 1 + heur_distances[link_to_index[*iter]];
-                if(distances[link_to_index[*iter]] >= new_dist_cost)
+                int new_edge_cost = distances[curr_ind] + 1;
+                if(distances[link_to_index[*iter]] > new_edge_cost)
                 {
-                    distance_costs.push(std::make_pair(new_dist_cost,link_to_index[*iter]));
+                    int new_total_cost = heur_distances[link_to_index[*iter]] + new_edge_cost;
+                    distance_costs.push(std::make_pair(new_total_cost,link_to_index[*iter]));
                     prev[link_to_index[*iter]] = curr_ind;
-                    distances[link_to_index[*iter]] = new_dist_cost;
+                    distances[link_to_index[*iter]] = new_edge_cost;
                 }
             }
         }
