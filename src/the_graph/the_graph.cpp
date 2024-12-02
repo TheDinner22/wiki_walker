@@ -64,7 +64,7 @@ uint Graph::num_nodes() const{
     return graph.size();
 }
 
-std::unordered_map<std::string, std::unordered_set<std::string>> Graph::get_graph() const
+const std::unordered_map<std::string, std::unordered_set<std::string>>& Graph::get_graph() const
 {
     return graph;
 }

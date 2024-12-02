@@ -91,7 +91,7 @@ public:
 
     uint num_nodes() const ;
 
-    std::unordered_map<std::string, std::unordered_set<std::string>> get_graph() const;
+    const std::unordered_map<std::string, std::unordered_set<std::string>>& get_graph() const;
 
 };
 
