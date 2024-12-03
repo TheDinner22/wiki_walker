@@ -22,6 +22,11 @@ int main(void){
         res.set_redirect("/public/html/index.html");
     });
 
+    // about us page
+    svr.Get("/about", [](const httplib::Request &, httplib::Response &res) {
+        res.set_redirect("/public/html/about.html");
+    });
+
     // someone is typing on an input box
     svr.Get("/api/search_hint", [](const httplib::Request &req, httplib::Response &res) {
         pages::search_hint(req, res);
