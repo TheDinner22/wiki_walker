@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wiki Walker</title>
-    <!-- Materialize CSS -->
+    <!-- materialize css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         body {
@@ -128,10 +128,6 @@
                 <div class="input4_hint hidden"></div>
             </div>
 
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Search
-            </button>
             <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_bfs_search"
                 hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
                 Rai - BFS
@@ -147,15 +143,9 @@
         </div>
 
         <div class="card-container">
-            <div class="card">
-                <strong>Sample Input 1</strong>
-                <p>Sample Input 2</p>
-                <p>Additional information can be displayed here to provide more context.</p>
-            </div>
         </div>
     </div>
 
-    <!-- Materialize JS (optional for components) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
