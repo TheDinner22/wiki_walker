@@ -19,7 +19,32 @@
     <link rel="stylesheet" href="/public/css/reset.css">
     <!-- worlds best front-end framework -->
     <script src="/public/js/htmx.js"></script>
+    <style>
+        .card-image img {
+            object-fit: cover;
+        }
+
+        .main-cont{
+            width: fit-content;
+            height: fit-content;
+            margin: auto;
+
+            flex-direction: row;
+            display: flex;
+        }
+
+        .main-cont>div{
+            margin: 10px;
+            padding: 0;
+        }
+
+        .card {
+            margin: 0;
+        }
+
+    </style>
 </head>
+
 
 <body hx-boost="true">
 
@@ -36,53 +61,49 @@
         </div>
     </nav>
 
-    <h1>Wiki Walker</h1>
-    <div class="container">
-        <div class="input-container">
-            <div class="input-field col s5">
-                <input type="text" id="input2" placeholder="Start Page" required hx-get="/api/search_hint" name="input2"
-                    hx-trigger="keyup changed delay:300ms" hx-target=".input2_hint" hx-swap="innerHTML">
-                <label for="input2">Start Page</label>
-                <div class="input2_hint hidden"></div>
-            </div>
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/create_tree"
-                hx-vals="js:{...read_inputs()}" hx-swap="none">
-                Create Subtree to Search
-            </button>
-            <div class="tree-container"> </div>
+    <h1>About Us</h1>
 
-            <hr>
-
-            <div class="input-field col s5">
-                <input type="text" id="input3" placeholder="Start Page" required hx-get="/api/search_hint" name="input3"
-                    hx-trigger="keyup changed delay:300ms" hx-target=".input3_hint" hx-swap="innerHTML">
-                <label for="input3">Start Page</label>
-                <div class="input3_hint hidden"></div>
+    <!-- Card 1 -->
+    <div class="main-cont">
+        <div>
+            <div class="card">
+                <div class="card-image">
+                    <img src="/public/imgs/joe.jpg" alt="Picture of Joseph Handsome">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Joseph Handsome</span>
+                    <p>Joseph is single!!! He's laughed at Hubert's name before and is now on the straight and narrow.</p>
+                </div>
             </div>
-            <div class="input-field col s5">
-                <input type="text" id="input4" placeholder="End Page" required hx-get="/api/search_hint" name="input4"
-                    hx-trigger="keyup changed delay:300ms" hx-target=".input4_hint" hx-swap="innerHTML">
-                <label for="input4">End Page</label>
-                <div class="input4_hint hidden"></div>
-            </div>
-
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_bfs_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Rai - BFS
-            </button>
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_dfs_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Rai - DFS
-            </button>
-            <button class="btn waves-effect waves-light" type="button" hx-get="/api/perform_d_search"
-                hx-vals="js:{...read_inputs()}" hx-target=".card-container" hx-swap="innerHTML">
-                Hubert - Dijkstra
-            </button>
         </div>
 
-        <div class="card-container">
+        <!-- Card 2 -->
+        <div>
+            <div class="card">
+                <div class="card-image">
+                    <img src="/public/imgs/joe.jpg" alt="Picture of Joseph Handsome">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Rai</span>
+                    <p>Rai is super cool. He has never laughed at Hubert's name.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+            <div class="card">
+                <div class="card-image">
+                    <img src="/public/imgs/joe.jpg" alt="Picture of Joseph Handsome">
+                </div>
+                <div class="card-content">
+                    <span class="card-title">Hubert</span>
+                    <p>Hubert is a dashing man. His name is not funny and you shouldn't laugh at him.</p>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
