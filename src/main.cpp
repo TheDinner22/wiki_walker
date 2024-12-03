@@ -2,6 +2,7 @@
 #include "the_graph/the_graph.hpp"
 #include <string>
 #include <unordered_map>
+#include <fstream>
 
 #define CPPHTTPLIB_OPENSSL_SUPPORT
 int main(void){
@@ -50,6 +51,11 @@ int main(void){
     // hubert button
     svr.Get("/api/perform_d_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
         pages::perform_search(req, res, "d", graphs);
+    });
+
+    // favicon for website
+    svr.Get("/favicon.ico", [](const httplib::Request &req, httplib::Response &res) {
+        res.set_redirect("/public/imgs/favicon.ico");
     });
 
     svr.listen("0.0.0.0", 8000);
