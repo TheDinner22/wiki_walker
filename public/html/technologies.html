@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="/favicon.ico?v=1.0" rel="icon" type="image/x-icon"/>
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Walker</title>
+    <!-- materialize css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <!-- worlds best front-end framework -->
+    <script src="/public/js/htmx.js"></script>
+    <style>
+        h2{
+            color: orange;
+        }
+
+        p {
+            color: #005EB8;
+            font-size: 1.5rem;
+        }
+    </style>
+
+</head>
+
+
+<body hx-boost="true">
+
+    <nav class="menu">
+        <div class="container">
+            <a hx-boost="false" href="/" class="material-symbols-outlined"> home </a>
+            <a hx-boost="false" href="/about" class=".mitr-bold bigg">Wiki Walker</a>
+            <ul class="right">
+                <li><a hx-boost="false" href="/about">About Us</a></li>
+                <li><a hx-boost="false" href="/example">Example Use</a></li>
+                <li><a hx-boost="false" href="/technologies">Technologies Used</a></li>
+                <li><a hx-boost="false" href="/results">Results</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>Technologies Used:</h1>
+
+    <div class="container">
+        <h2>HTMX</h2>
+        <p>HTMX is the best front-end framework in the world! Fast and easy to use. HTMX made it easier to interface with an extremely low level (C++) backend. We can respond to requests with html, json, or both! We can have requests update the DOM or trigger custom JS functions.</p>
+        <hr>
+
+        <h2>LibCurl</h2>
+        <p>We needed to interact with Wikipedia using HTTP requests. We needed to be able to send http requests in C++! This meant using some external library to send requests for us. LibCurl is free and relatively easy to use (not to install though). It also handles other miscellaneous web related things such as URL encoding for us.</p>
+        <hr>
+
+        <h2>SimdJSON</h2>
+        <p>The Wikipedia API we are using returns JSON. Handling JSON is a very common requirement and it wasn’t hard to find a JSON parser written in and for C++. SimdJSON is fast and extremely easy to install (single header library). It's worth noting that SimdJSON only supports JSON decoding; Anytime we needed to encode some data into JSON, it was done manually (with string literals and lots of concatenations.</p>
+        <hr>
+
+        <h2>HTTPRequest</h2>
+        <p>I’m truly shocked I found something as good as HTTPRequest. Setting up a web 1.0 REST-ful backend in CPP was extremely easy. This single header file library supports file based routing (for our public folder). It also supports redirects, custom routing, and https. GO STAR IT ON GITHUB.</p>
+        <hr>
+
+        <h2>Docker</h2>
+        <p>We developed and deployed our code with Docker! Deploying with Docker was easy. Using Docker while developing meant only installing everything once. See <a hx-boost="false" href="/example">Example Use</a> for a video tutorial on Docker.</p>
+        <hr>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>
