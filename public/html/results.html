@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="/favicon.ico?v=1.0" rel="icon" type="image/x-icon"/>
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Walker</title>
+    <!-- materialize css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/reset.css">
+    <!-- worlds best front-end framework -->
+    <script src="/public/js/htmx.js"></script>
+    <style>
+        h2{
+            color: orange;
+        }
+
+        p {
+            color: #005EB8;
+            font-size: 1.5rem;
+        }
+        #center-me{
+            display: flex;
+            justify-self: center;
+        }
+
+    </style>
+
+</head>
+
+
+<body hx-boost="true">
+
+    <nav class="menu">
+        <div class="container">
+            <a hx-boost="false" href="/" class="material-symbols-outlined"> home </a>
+            <a hx-boost="false" href="/about" class=".mitr-bold bigg">Wiki Walker</a>
+            <ul class="right">
+                <li><a hx-boost="false" href="/about">About Us</a></li>
+                <li><a hx-boost="false" href="/example">Example Use</a></li>
+                <li><a hx-boost="false" href="/technologies">Technologies Used</a></li>
+                <li><a hx-boost="false" href="/results">Results</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1>(unofficial) Results:</h1>
+    <span id="center-me" >see our Group submission PDF for official results</span>
+
+    <div class="container">
+        <h2>The Graph is Sparse and Dense!?!!?</h2>
+        <p>If we consider all of Wikipedia, it’s a sparse graph. However, when we look at a ~1000 node subgraph, like we do in this project, the graph becomes more dense. 1000 nodes, each with 50-100 edges is much more dense than 1000000 nodes, each with 50-100 edges. In short, looking at a smaller subgraph decreases the number of nodes, while also keeping the number of edges per node the same.</p>
+        <hr>
+
+        <h2>Limit's of the CPU and Your Eyes</h2>
+        <p> This project can access ~62 million pages on Wikipedia. Trying to render even 0.1% of these pages on the screen as nodes would take hours. Viewing 1000 node subtrees is better visually and computationally. In short, it’s hard for the computer to visualize more than ~10,000 nodes at a time and it’s hard for a human to process more than ~1000 at a time. </p>
+        <hr>
+
+        <h2>Poorly shaped Data</h2>
+        <p>Turns out that 1000 pages isn’t very many; Some Wikipedia pages have around 400 links. If our graph just showed every link as an edge, the graph would be pretty uninteresting. Early implementations just looked like one to three pages surrounded by all the pages they pointed to. No cycles and nothing complex.</p>
+        <span>..</span>
+        <p>We wanted a more complex tree without increasing the number of nodes. We decided to limit each page to ~20 edges (chosen at random). For example, the Wikipedia page for Albert Einstein points to several hundred other pages. Our implementation only pick ~20 of those links and ignores the rest.</p>
+        <span>..</span>
+        <p>The resulting graph is certainly sparse; Plus, it containers more complex connections between nodes. It's also more visually interesting and branches to more diverse topics.</p>
+        <hr>
+
+        <h2>Best Algorithm?</h2>
+        <p>BFS! Objectively BFS. Dijkstra’s is just too inefficient. In the average case, we don’t need to traverse every node to find the shortest path between s and t (our graph is unweighted). In the context of this project, the most important factor is the number of requests sent. Each HTTP GET request take ~0.3 seconds. On average, we observed BFS sending fewer requests than DFS and Dijkstra’s algorithm (thus, it takes less time to execute).</p>
+        <span>..</span>
+        <p>For a more complete analysis, see our group submission PDF.</p>
+        <hr>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+
+</html>
