@@ -14,6 +14,8 @@ simdjson - json parser for c++
 
 FRONTEND with `htmx` - worlds best front-end (seriously I could talk about htmx for hours it's so cool)
 
+Wiki api used (to find adjacent pages) - https://www.mediawiki.org/wiki/API:Main_page
+
 ```
 I have no idea how to us lexbor and want to die
 heres an example
