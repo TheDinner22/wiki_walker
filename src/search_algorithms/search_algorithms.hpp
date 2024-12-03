@@ -37,6 +37,9 @@ struct ParseResults {
         msg += "<div class=\"card\"><strong>";
         msg += algo_name;
         msg += "</strong>";
+        if(this->shortest_path.size() == 0){
+            msg += "<p>One of the nodes you entered isn't in the graph! Double check your start and end input boxes and try again.</p>";
+        }
         msg = msg + "<p> Requests sent:" + std::to_string(num_requests_sent) +"</p>";
         msg = msg + "<p> Pages visited:" + std::to_string(pages_visited) +"</p>";
         msg += "<ul>";
