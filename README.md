@@ -1,3 +1,9 @@
+### for the grader
+
+information on running is in this README or you can watch this video tutorial (it's just Docker)
+
+https://www.youtube.com/watch?v=ChC0edMr4no
+
 ### dependencies
 
 RESTFUL HTTP BACKEND with `HTTPRequest` - https://github.com/elnormous/HTTPRequest
