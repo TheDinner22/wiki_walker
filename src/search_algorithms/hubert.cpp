@@ -5,13 +5,14 @@
 #include <utility>
 #include <vector>
 #include <queue>
+#include <limits>
 #include <unordered_set>
 #include <unordered_map>
 #include <map>
 
 ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g){
     // disgusting check by Joseph I am ashamed that I wrote the following if statement
-    if(g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
+    if(g.num_nodes() == 0 || g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
         ParseResults r;
         r.num_requests_sent = 0;
         r.pages_visited = 0;
@@ -75,10 +76,6 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
         if(visited.count(curr_ind) == 0)
         {
             visited.insert(curr_ind);
-            if(curr_ind == end_index)
-            {
-                break;
-            }
 
             // each time we go through this for loop, we must "send a get request"
             // (IE: query the graph for neighbors)
@@ -104,7 +101,7 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
         prev_ind = prev[prev_ind];
     }
 
-    // shortest_path is backwards???
+    // shortest_path is backwards
     std::reverse(shortest_path.begin(), shortest_path.end());
 
     r.pages_visited = visited.size();
@@ -114,9 +111,17 @@ ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& e
 }
 
 ParseResults hubert_algo_a_star(const std::string& start, const std::string& end, const Graph& g){
+    if(g.num_nodes() == 0 || g.get_graph().count(start) == 0 || g.get_graph().count(end) == 0){
+        ParseResults r;
+        r.num_requests_sent = 0;
+        r.pages_visited = 0;
+        r.shortest_path = {};
+        r.algo_name = "hubert button a star";
+        return r;
+    }
+    
     ParseResults r;
-    r.num_requests_sent = 10;
-    r.pages_visited = 10;
+    r.num_requests_sent = 0;
     r.algo_name = "hubert button a star";
 
     //first element is distance, the second is the index of string (use assoc to decode)
@@ -125,9 +130,9 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     int graph_size = g.num_nodes();
     std::unordered_set<int> visited;
     std::vector<std::string> shortest_path;
-    int prev[graph_size];
-    int heur_distances[graph_size];
-    int distances[graph_size];
+    std::vector<int> prev; prev.reserve(graph_size);
+    std::vector<int> distances; distances.reserve(graph_size);
+    std::vector<int> heur_distances; heur_distances.reserve(graph_size);
 
     //association maps
     std::map<int, std::string> index_to_link;
@@ -138,6 +143,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     int end_index;
     int start_index;
     int index = 0;
+    std::cout << "Starting Djikstras Initializations" << std::endl;
     for(auto iter = g.get_graph().begin(); iter != g.get_graph().end(); iter++)
     {
         index_to_link[index] = iter->first;
@@ -150,14 +156,14 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         if(iter->first == start)
         {
             
-            distances[index] = 0;
+
             start_index = index;
         }
         else
         {
-            distances[index] = std::numeric_limits<int>::max();
+            distances.push_back(std::numeric_limits<int>::max());
         }
-        prev[index] = -1;
+        prev.push_back(-1);
         index++;
     }
 
@@ -170,6 +176,7 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     heur_dists.push(0);
     int heur_dist;
     heur_distances[end_index] = 0;
+    std::cout << "Starting BFS" << std::endl;
     while (!toVisit.empty()) 
     {
         std::string currentUrl = toVisit.front();
@@ -190,30 +197,36 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
             }
         }
     }
-
-    distance_costs.push(std::make_pair((0 + heur_distances[start_index]),start_index));
+    distances[start_index] = 0;
+    distance_costs.push(std::make_pair((distances[start_index] + heur_distances[start_index]),start_index));
+    std::cout << "Starting A*" << std::endl;
+    bool found = false;
     while(!(distance_costs.empty()))
     {
         int curr_ind = distance_costs.top().second;
-        int distance = distance_costs.top().first;
         std::string curr_string = index_to_link[curr_ind];
-        std::vector<std::string>::iterator iter;
+        if(curr_ind == end_index)
+        {
+            std::cout << "FOUND" << std::endl;
+            found = true;
+        }
         if(visited.count(curr_ind) == 0)
         {
+            r.num_requests_sent++;
             visited.insert(curr_ind);
-            if(curr_ind == end_index)
-            {
-                break;
-            }
-            for(iter = g.getAdjacent(curr_string).begin(); iter != g.getAdjacent(curr_string).end(); iter++)
+            for(auto neighbor: g.getAdjacent(curr_string))
             {
                 //if distance stored for vertex is greater than current distance + heur
-                int new_dist_cost = distance + 1 + heur_distances[link_to_index[*iter]];
-                if(distances[link_to_index[*iter]] >= new_dist_cost)
                 {
-                    distance_costs.push(std::make_pair(new_dist_cost,link_to_index[*iter]));
-                    prev[link_to_index[*iter]] = curr_ind;
-                    distances[link_to_index[*iter]] = new_dist_cost;
+                    std::cout << "Neighbor check: " << neighbor << std::endl;
+                }
+                int new_edge_cost = distances[curr_ind] + 1;
+                if(distances[link_to_index[neighbor]] >= new_edge_cost)
+                {
+                    int new_total_cost = heur_distances[link_to_index[neighbor]] + new_edge_cost;
+                    distance_costs.push(std::make_pair(new_total_cost,link_to_index[neighbor]));
+                    prev[link_to_index[neighbor]] = curr_ind;
+                    distances[link_to_index[neighbor]] = new_edge_cost;
                 }
             }
         }
@@ -221,12 +234,16 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     }
 
     int prev_ind = end_index;
+    std::cout << "Starting path trace" << std::endl;
     while(prev_ind != -1)
     {
+        std::cout << "tracing" << index_to_link[prev_ind] << std::endl;
         shortest_path.push_back(index_to_link[prev_ind]);
         prev_ind = prev[prev_ind];
     }
+    
+    std::reverse(shortest_path.begin(), shortest_path.end());
+    r.pages_visited = visited.size();
     r.shortest_path = shortest_path;
-
     return r;
 }
