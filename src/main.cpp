@@ -21,7 +21,7 @@ int main(void){
         res.set_redirect("/public/html/index.html");
     });
 
-    // someone is typing on an input
+    // someone is typing on an input box
     svr.Get("/api/search_hint", [](const httplib::Request &req, httplib::Response &res) {
         pages::search_hint(req, res);
     });
@@ -37,11 +37,6 @@ int main(void){
         res.set_content(graphs[params.graph_name].as_json(), "application/json");
     });
 
-    // called when the button is pressed and both inputs are sent in as params
-    svr.Get("/api/perform_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "", graphs);
-    });
-
     // rai button
     svr.Get("/api/perform_bfs_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
         pages::perform_search(req, res, "bfs", graphs);
@@ -55,11 +50,6 @@ int main(void){
     // hubert button
     svr.Get("/api/perform_d_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
         pages::perform_search(req, res, "d", graphs);
-    });
-
-    // hubert button
-    svr.Get("/api/perform_a_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "a", graphs);
     });
 
     svr.listen("0.0.0.0", 8000);
