@@ -1,3 +1,105 @@
-body {
-    background-color: red;
+/* these classes are from google fonts */
+.mitr-extralight {
+  font-family: "Mitr", sans-serif;
+  font-weight: 200;
+  font-style: normal;
 }
+
+.mitr-light {
+  font-family: "Mitr", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.mitr-regular {
+  font-family: "Mitr", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.mitr-medium {
+  font-family: "Mitr", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.mitr-semibold {
+  font-family: "Mitr", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.mitr-bold {
+  font-family: "Mitr", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+    background-color: #f9f9f9;
+}
+
+.menu {
+    background-color: #005EB8;
+    /* UF Blue */
+    color: white;
+}
+
+.menu a {
+    color: white;
+    margin: 0 15px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #005EB8;
+    /* UF Blue */
+}
+
+.hidden{
+    visibility: hidden;
+    transition: all 250ms ease;
+}
+
+.card-container {
+    margin: 1rem;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 15px;
+    width: 300px;
+    /* Card width */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#search-results {
+    position: absolute; /* Ensure the UL is positioned directly below the input */
+    z-index: 1000; /* Ensure it appears above other elements */
+    margin-top: -5px; /* Adjust margin to reduce space */
+    width: calc(100% - 2rem); /* Adjust width to match the input */
+}
+
+#search-results li {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    background-color: #005EB8;
+    margin: 0;
+}
+
+#search-results li:hover {
+    background-color: cyan;
+}
+
+.tree-container {
+    width: 100%;
+    height: 900px;
+    border: 5px solid blue;
+    border-radius: 5%;
+    margin: 1rem;
+}
+

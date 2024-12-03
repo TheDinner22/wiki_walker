@@ -4,81 +4,18 @@
 <head>
     <link href="/favicon.ico?v=1.0" rel="icon" type="image/x-icon"/>
 
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wiki Walker</title>
     <!-- materialize css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-        body {
-            background-color: #f9f9f9;
-        }
-
-        .menu {
-            background-color: #005EB8;
-            /* UF Blue */
-            color: white;
-        }
-
-        .menu a {
-            color: white;
-            margin: 0 15px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            color: #005EB8;
-            /* UF Blue */
-        }
-
-        .hidden{
-            visibility: hidden;
-            transition: all 250ms ease;
-        }
-
-        .card-container {
-            margin: 1rem;
-        }
-
-        .card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 10px;
-            padding: 15px;
-            width: 300px;
-            /* Card width */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        #search-results {
-            position: absolute; /* Ensure the UL is positioned directly below the input */
-            z-index: 1000; /* Ensure it appears above other elements */
-            margin-top: -5px; /* Adjust margin to reduce space */
-            width: calc(100% - 2rem); /* Adjust width to match the input */
-        }
-
-        #search-results li {
-            padding: 8px;
-            border-bottom: 1px solid #ccc;
-            background-color: #005EB8;
-            margin: 0;
-        }
-
-        #search-results li:hover {
-            background-color: cyan;
-        }
-
-        .tree-container {
-            width: 100%;
-            height: 900px;
-            border: 5px solid blue;
-            border-radius: 5%;
-            margin: 1rem;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/reset.css">
     <!-- worlds best front-end framework -->
     <script src="/public/js/htmx.js"></script>
     <!-- my js -->
@@ -99,10 +36,10 @@
         <div class="container">
             <a href="#about" class="brand-logo">Wiki Walker</a>
             <ul class="right">
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#example">Example Use</a></li>
-                <li><a href="#technologies">Technologies Used</a></li>
-                <li><a href="#results">Results</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/example">Example Use</a></li>
+                <li><a href="/technologies">Technologies Used</a></li>
+                <li><a href="/results">Results</a></li>
             </ul>
         </div>
     </nav>
