@@ -161,9 +161,9 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
         }
         else
         {
-            distances[index] = std::numeric_limits<int>::max();
+            distances.push_back(std::numeric_limits<int>::max());
         }
-        prev[index] = -1;
+        prev.push_back(-1);
         index++;
     }
 
