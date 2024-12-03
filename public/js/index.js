@@ -153,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // after every htmx swap (for times when we have html and json at same time
     document.body.addEventListener('htmx:afterSwap', function(event) {
-        if(event.target.querySelectorAll("script").length == 1){
-            const p = JSON.parse(event.target.querySelector("script").innerText);
+        if(event.target.querySelectorAll(".my-script").length == 1){
+            const p = JSON.parse(event.target.querySelector(".my-script").innerText);
             reset_graph_colors();
             color_path(p, 'red');
         }

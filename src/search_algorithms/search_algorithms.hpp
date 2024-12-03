@@ -49,7 +49,7 @@ struct ParseResults {
             msg += "</li>";
         }
         msg += "</ul></div>";
-        msg += "<script type=\"application/json\" id=\""+ this->algo_name + "\">[";
+        msg += "<script type=\"application/json\" class=\"my-script\" id=\""+ this->algo_name + "\">[";
         
         for(auto node_name : this->shortest_path){
             std::string temp = node_name;
