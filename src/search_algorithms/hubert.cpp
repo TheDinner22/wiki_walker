@@ -205,11 +205,6 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
     {
         int curr_ind = distance_costs.top().second;
         std::string curr_string = index_to_link[curr_ind];
-        if(!(found))
-        {
-            
-            std::cout << "Current Vertex: " << curr_string << std::endl;
-        }
         if(curr_ind == end_index)
         {
             std::cout << "FOUND" << std::endl;
@@ -222,7 +217,6 @@ ParseResults hubert_algo_a_star(const std::string& start, const std::string& end
             for(auto neighbor: g.getAdjacent(curr_string))
             {
                 //if distance stored for vertex is greater than current distance + heur
-                if(!(found))
                 {
                     std::cout << "Neighbor check: " << neighbor << std::endl;
                 }
