@@ -22,7 +22,7 @@ int main(void){
 
     bool worked = svr.set_mount_point("/public", "./public");
     if(!worked){
-        std::cout << "yeah so we are FUCKED" << std::endl;
+        std::cout << "Failed to serve public dir." << std::endl;
     }
 
     // landing page
@@ -30,7 +30,27 @@ int main(void){
         res.set_redirect("/public/html/index.html");
     });
 
-    // someone is typing on an input
+    // about us page
+    svr.Get("/about", [](const httplib::Request &, httplib::Response &res) {
+        res.set_redirect("/public/html/about.html");
+    });
+
+    // example use page
+    svr.Get("/example", [](const httplib::Request &, httplib::Response &res) {
+        res.set_redirect("/public/html/example.html");
+    });
+
+    // techs used page
+    svr.Get("/technologies", [](const httplib::Request &, httplib::Response &res) {
+        res.set_redirect("/public/html/technologies.html");
+    });
+
+    // results page
+    svr.Get("/results", [](const httplib::Request &, httplib::Response &res) {
+        res.set_redirect("/public/html/results.html");
+    });
+
+    // someone is typing on an input box
     svr.Get("/api/search_hint", [](const httplib::Request &req, httplib::Response &res) {
         pages::search_hint(req, res);
     });
@@ -44,11 +64,6 @@ int main(void){
         // return the graph as json
         ReqParams params(req);
         res.set_content(graphs[params.graph_name].as_json(), "application/json");
-    });
-
-    // called when the button is pressed and both inputs are sent in as params
-    svr.Get("/api/perform_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "", graphs);
     });
 
     // rai button
@@ -66,9 +81,9 @@ int main(void){
         pages::perform_search(req, res, "d", graphs);
     });
 
-    // hubert button
-    svr.Get("/api/perform_a_search", [&graphs](const httplib::Request &req, httplib::Response &res) {
-        pages::perform_search(req, res, "a", graphs);
+    // favicon for website
+    svr.Get("/favicon.ico", [](const httplib::Request &req, httplib::Response &res) {
+        res.set_redirect("/public/imgs/favicon.ico");
     });
 
     std::string p = get_env_var("PORT");

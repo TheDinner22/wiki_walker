@@ -37,6 +37,9 @@ struct ParseResults {
         msg += "<div class=\"card\"><strong>";
         msg += algo_name;
         msg += "</strong>";
+        if(this->shortest_path.size() == 0){
+            msg += "<p>One of the nodes you entered isn't in the graph! Double check your start and end input boxes and try again.</p>";
+        }
         msg = msg + "<p> Requests sent:" + std::to_string(num_requests_sent) +"</p>";
         msg = msg + "<p> Pages visited:" + std::to_string(pages_visited) +"</p>";
         msg += "<ul>";
@@ -46,7 +49,7 @@ struct ParseResults {
             msg += "</li>";
         }
         msg += "</ul></div>";
-        msg += "<script type=\"application/json\" id=\""+ this->algo_name + "\">[";
+        msg += "<script type=\"application/json\" class=\"my-script\" id=\""+ this->algo_name + "\">[";
         
         for(auto node_name : this->shortest_path){
             std::string temp = node_name;
@@ -66,10 +69,10 @@ struct ParseResults {
 };
 
 // here's an example that traverses the 20th link (assuming it exists) ten times
+// this IS NOT USED IN PROD AND IS JUST AN EXAMPLE
 ParseResults keep_picking_random(const std::string& start, const std::string& end, const Graph& g);
 
 ParseResults hubert_algo_dijkstra(const std::string& start, const std::string& end, const Graph& g);
-ParseResults hubert_algo_a_star(const std::string& start, const std::string& end, const Graph& g);
 
 ParseResults rai_algo_bfs(const std::string& start, const std::string& end, const Graph& graph);
 ParseResults rai_algo_dfs(const std::string& start, const std::string& end, const Graph& graph);

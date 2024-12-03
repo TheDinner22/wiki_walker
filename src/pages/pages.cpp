@@ -98,10 +98,7 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
 
     // perform search
     ParseResults algo_results;
-    if(f_name.size() == 0){
-        algo_results = keep_picking_random(results.start_page, results.end_page, g);
-    }
-    else if(f_name == "bfs"){
+    if(f_name == "bfs"){
         algo_results = rai_algo_bfs(results.start_page, results.end_page, g);
     }
 
@@ -110,9 +107,6 @@ void pages::perform_search(const httplib::Request& req, httplib::Response &res, 
     }
     else if(f_name == "d"){
         algo_results = hubert_algo_dijkstra(results.start_page, results.end_page, g);
-    }
-    else if(f_name == "a"){
-        algo_results = hubert_algo_a_star(results.start_page, results.end_page, g);
     }
     else {
         std::cout << "INVALID" << std::endl;
