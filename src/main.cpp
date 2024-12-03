@@ -13,7 +13,7 @@ int main(void){
 
     bool worked = svr.set_mount_point("/public", "./public");
     if(!worked){
-        std::cout << "yeah so we are FUCKED" << std::endl;
+        std::cout << "Failed to serve public dir." << std::endl;
     }
 
     // landing page
